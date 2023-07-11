@@ -1,15 +1,6 @@
 import React from "react";
 
-import {
-  Card,
-  CardBody,
-  Text,
-  Flex,
-  Spacer,
-  SimpleGrid,
-  Avatar,
-  VStack,
-} from "@chakra-ui/react";
+import { SimpleGrid } from "@chakra-ui/react";
 
 import OverviewRecent from "./OverviewRecent";
 
