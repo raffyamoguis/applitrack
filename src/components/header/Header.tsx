@@ -11,6 +11,7 @@ import {
   MenuList,
   MenuItem,
   useMediaQuery,
+  useColorMode,
 } from "@chakra-ui/react";
 
 // Components
@@ -18,6 +19,7 @@ import HeaderLink from "./headerlink";
 import Drawer from "./drawer";
 
 const Header: React.FC = () => {
+  const { colorMode, toggleColorMode } = useColorMode();
   const [isSmallerDevice] = useMediaQuery("(max-width: 600px)");
 
   return (
@@ -49,7 +51,9 @@ const Header: React.FC = () => {
                 />
               </MenuButton>
               <MenuList>
-                <MenuItem>Darkmode</MenuItem>
+                <MenuItem onClick={toggleColorMode}>
+                  {colorMode === "light" ? "Darkmode" : "Lightmode"}
+                </MenuItem>
                 <MenuItem>Profile</MenuItem>
                 <MenuItem>Logout</MenuItem>
               </MenuList>
