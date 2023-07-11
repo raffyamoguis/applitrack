@@ -7,19 +7,27 @@ import {
   DrawerOverlay,
   DrawerContent,
   DrawerCloseButton,
+  Icon,
   VStack,
   StackDivider,
   useDisclosure,
+  useColorMode,
 } from "@chakra-ui/react";
 import { IconMenuDeep } from "@tabler/icons-react";
+import { IconBrightness, IconBrightnessOff } from "@tabler/icons-react";
 
 import HeaderLink from "./headerlink";
 
 const drawer: React.FC = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const { colorMode, toggleColorMode } = useColorMode();
 
   return (
     <>
+      <Icon
+        as={colorMode === "light" ? IconBrightnessOff : IconBrightness}
+        onClick={toggleColorMode}
+      />
       <IconButton
         aria-label="Show drawer."
         colorScheme="gray"
