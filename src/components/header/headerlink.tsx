@@ -6,14 +6,13 @@ interface Props {
   title: string;
   fontSize?: string;
   color?: string;
-  w?: string;
   to: string;
 }
 
-const headerlink: React.FC<Props> = ({ title, fontSize, color, w, to }) => {
+const headerlink: React.FC<Props> = ({ title, fontSize, color, to }) => {
   return (
     <Link as={ReactLink} to={to} style={{ textDecoration: "none" }}>
-      <Text fontSize={fontSize} color={color} as={w}>
+      <Text fontSize={fontSize} color={color}>
         {title}
       </Text>
     </Link>
