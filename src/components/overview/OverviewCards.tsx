@@ -46,11 +46,11 @@ const OverviewCards: React.FC = () => {
         <Card borderRadius="xl" key={key}>
           <CardBody>
             <Flex>
-              <Text>{item.title}</Text>
+              <Text as="b">{item.title}</Text>
               <Spacer />
               <Icon as={item.icon} />
             </Flex>
-            <Text fontSize="xl" fontWeight="600" marginTop="3">
+            <Text fontSize="2xl" as="b" marginTop="3">
               +200
             </Text>
             <Text fontSize="sm" marginTop="1">

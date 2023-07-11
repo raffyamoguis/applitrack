@@ -66,7 +66,9 @@ const OverviewRecent: React.FC = () => {
   return (
     <Card borderRadius="xl">
       <CardBody>
-        <Text fontSize="xl">Recent Application</Text>
+        <Text fontSize="xl" as="b">
+          Recent Application
+        </Text>
         <Text fontSize="sm" marginTop="1" marginBottom="10">
           You made 200 applications this day
         </Text>
@@ -75,7 +77,9 @@ const OverviewRecent: React.FC = () => {
           <Flex alignItems="center" gap="6" marginTop="4" key={key}>
             <Avatar size="sm" name="Raffy Amoguis" src={item.icon} />
             <VStack spacing="0" align="start">
-              <Text fontSize="xs">{item.name}</Text>
+              <Text fontSize="xs" as="b">
+                {item.name}
+              </Text>
               <Text fontSize="xs">{item.address}</Text>
             </VStack>
             <Spacer />
