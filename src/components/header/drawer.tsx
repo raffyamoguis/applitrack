@@ -15,7 +15,7 @@ import {
   useColorMode,
 } from "@chakra-ui/react";
 import { IconMenuDeep } from "@tabler/icons-react";
-import { IconBrightness, IconBrightnessOff } from "@tabler/icons-react";
+import { MoonIcon, SunIcon } from "@chakra-ui/icons";
 
 import HeaderLink from "./headerlink";
 
@@ -25,9 +25,11 @@ const drawer: React.FC = () => {
 
   return (
     <>
-      <HStack spacing="10px">
+      <HStack spacing="10px" align="center">
         <Icon
-          as={colorMode === "light" ? IconBrightnessOff : IconBrightness}
+          _hover={{ color: "black" }}
+          color="gray"
+          as={colorMode === "light" ? MoonIcon : SunIcon}
           onClick={toggleColorMode}
         />
         <IconButton
