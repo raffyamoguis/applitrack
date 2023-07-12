@@ -43,7 +43,7 @@ const OverviewCards: React.FC = () => {
   return (
     <SimpleGrid columns={[1, 2, 3, 4]} spacing={5} marginTop={10}>
       {overviewData.map((item, key) => (
-        <Card borderRadius="xl" key={key}>
+        <Card borderRadius="xl" variant="outline" shadow="sm" key={key}>
           <CardBody>
             <Flex>
               <Text as="b">{item.title}</Text>
