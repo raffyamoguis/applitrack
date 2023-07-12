@@ -28,7 +28,9 @@ const Dashboard: React.FC = () => {
           <option value="option2">Option 2</option>
           <option value="option3">Option 3</option>
         </Select>
-        <Button size={{ base: "xs", sm: "sm", md: "md" }}>Add New</Button>
+        <Button colorScheme="nigga" size={{ base: "xs", sm: "sm", md: "md" }}>
+          Add New
+        </Button>
       </Flex>
       <OverviewCards />
       <OverviewStats />
