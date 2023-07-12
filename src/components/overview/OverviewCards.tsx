@@ -11,14 +11,11 @@ import {
 } from "@chakra-ui/react";
 
 import {
-  IconApps,
-  IconScriptPlus,
   IconLoader3,
   IconDeviceDesktopAnalytics,
   IconExclamationCircle,
   IconId,
 } from "@tabler/icons-react";
-import { CalendarIcon } from "@chakra-ui/icons";
 
 const overviewData = [
   {
