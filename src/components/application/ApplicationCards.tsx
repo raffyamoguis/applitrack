@@ -61,12 +61,13 @@ const applicationData = [
 
 const ApplicationCards: React.FC = () => {
   return (
-    <SimpleGrid columns={[1, 2, 3, 4]} spacing={5} marginTop={4}>
+    <SimpleGrid columns={[1, 2, 3, 4]} spacing={4} marginTop={4}>
       {applicationData.map((item, key) => (
         <ApplicationCard
           key={key}
           name={item.name}
           date={item.date}
+          status={item.status}
           position={item.position}
         />
       ))}

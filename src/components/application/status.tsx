@@ -1,12 +1,17 @@
 import React from "react";
-import { Menu, MenuButton, MenuList, MenuItem, Button } from "@chakra-ui/react";
+import { Menu, MenuButton, Button, MenuList, MenuItem } from "@chakra-ui/react";
 import { ChevronDownIcon } from "@chakra-ui/icons";
 
 const status: React.FC = () => {
   return (
     <Menu>
-      <MenuButton size="sm" as={Button} rightIcon={<ChevronDownIcon />}>
-        Actions
+      <MenuButton
+        size="sm"
+        variant="outline"
+        as={Button}
+        rightIcon={<ChevronDownIcon />}
+      >
+        Status
       </MenuButton>
       <MenuList>
         <MenuItem>Ongoing</MenuItem>
