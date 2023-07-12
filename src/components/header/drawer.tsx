@@ -9,6 +9,7 @@ import {
   DrawerCloseButton,
   Icon,
   VStack,
+  HStack,
   StackDivider,
   useDisclosure,
   useColorMode,
@@ -24,17 +25,19 @@ const drawer: React.FC = () => {
 
   return (
     <>
-      <Icon
-        as={colorMode === "light" ? IconBrightnessOff : IconBrightness}
-        onClick={toggleColorMode}
-      />
-      <IconButton
-        aria-label="Show drawer."
-        colorScheme="gray"
-        variant="ghost"
-        icon={<IconMenuDeep />}
-        onClick={onOpen}
-      />
+      <HStack spacing="10px">
+        <Icon
+          as={colorMode === "light" ? IconBrightnessOff : IconBrightness}
+          onClick={toggleColorMode}
+        />
+        <IconButton
+          aria-label="Show drawer."
+          colorScheme="gray"
+          variant="ghost"
+          icon={<IconMenuDeep />}
+          onClick={onOpen}
+        />
+      </HStack>
       <Drawer isOpen={isOpen} placement="right" size="xs" onClose={onClose}>
         <DrawerOverlay />
         <DrawerContent>

@@ -10,6 +10,7 @@ import {
   MenuButton,
   MenuList,
   MenuItem,
+  Box,
   useMediaQuery,
   useColorMode,
 } from "@chakra-ui/react";
@@ -35,9 +36,10 @@ const Header: React.FC = () => {
         </Text>
 
         <Spacer />
-        {isSmallerDevice ? (
+        <Box display={{ base: "block", md: "none" }}>
           <Drawer />
-        ) : (
+        </Box>
+        <Box display={{ base: "none", md: "block" }}>
           <HStack spacing="20px">
             <HeaderLink title="Overview" to="/" />
             <HeaderLink title="Applications" to="applications" />
@@ -59,7 +61,7 @@ const Header: React.FC = () => {
               </MenuList>
             </Menu>
           </HStack>
-        )}
+        </Box>
       </Flex>
 
       <Divider />
