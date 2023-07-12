@@ -83,7 +83,7 @@ const OverviewRecent: React.FC = () => {
               <Text fontSize="xs">{item.address}</Text>
             </VStack>
             <Spacer />
-            <Badge variant="subtle" colorScheme="green">
+            <Badge variant="solid" colorScheme="nigga" borderRadius="sm">
               {item.status}
             </Badge>
           </Flex>

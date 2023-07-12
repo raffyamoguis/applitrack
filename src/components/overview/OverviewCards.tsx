@@ -4,36 +4,44 @@ import {
   Card,
   CardBody,
   Text,
+  SimpleGrid,
+  VStack,
   Flex,
   Spacer,
-  SimpleGrid,
-  Icon,
 } from "@chakra-ui/react";
 
-import { IconApps } from "@tabler/icons-react";
+import {
+  IconApps,
+  IconScriptPlus,
+  IconLoader3,
+  IconDeviceDesktopAnalytics,
+  IconExclamationCircle,
+  IconId,
+} from "@tabler/icons-react";
+import { CalendarIcon } from "@chakra-ui/icons";
 
 const overviewData = [
   {
-    title: "New Applicants",
-    icon: IconApps,
+    title: "New",
+    icon: IconDeviceDesktopAnalytics,
     numbers: "+200",
     note: "+20.1% from last month",
   },
   {
-    title: "Pending Applicants",
-    icon: IconApps,
+    title: "Pending",
+    icon: IconLoader3,
     numbers: "+70",
     note: "+29.1% from last month",
   },
   {
-    title: "Failed Applications",
-    icon: IconApps,
+    title: "Failed",
+    icon: IconExclamationCircle,
     numbers: "+200",
     note: "+20.1% from last month",
   },
   {
-    title: "Ongoing Applications",
-    icon: IconApps,
+    title: "Ongoing",
+    icon: IconId,
     numbers: "+800",
     note: "+20.1% from last month",
   },
@@ -41,21 +49,24 @@ const overviewData = [
 
 const OverviewCards: React.FC = () => {
   return (
-    <SimpleGrid columns={[1, 2, 3, 4]} spacing={5} marginTop={10}>
+    <SimpleGrid columns={[1, 2, 3, 4]} spacing={4} marginTop={10}>
       {overviewData.map((item, key) => (
         <Card borderRadius="xl" variant="outline" shadow="sm" key={key}>
           <CardBody>
-            <Flex>
-              <Text as="b">{item.title}</Text>
+            <Flex alignItems="gray">
+              <Text as="b" colorScheme="nigga" fontSize="lg">
+                {item.title}
+              </Text>
+
               <Spacer />
-              <Icon as={item.icon} />
+              <item.icon color="gray" />
             </Flex>
-            <Text fontSize="2xl" as="b" marginTop="3">
-              +200
-            </Text>
-            <Text fontSize="sm" marginTop="1">
-              {item.note}
-            </Text>
+            <VStack align="start" mt="4" spacing={0}>
+              <Text fontSize="3xl" as="b">
+                {item.numbers}
+              </Text>
+              <Text fontSize="sm">{item.note}</Text>
+            </VStack>
           </CardBody>
         </Card>
       ))}
