@@ -13,7 +13,7 @@ const applicationcard: React.FC<Props> = ({ name, date, position }) => {
   return (
     <Card variant="outline" shadow="sm" borderRadius="xl">
       <CardBody>
-        <Text as="b" fontSize="xl">
+        <Text as="b" fontSize="lg">
           {name}
         </Text>
         <Text fontSize="sm">{date}</Text>
