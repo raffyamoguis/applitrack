@@ -1,4 +1,5 @@
 import React from "react";
+import { useLocation } from "react-router-dom";
 import {
   Flex,
   Spacer,
@@ -20,8 +21,20 @@ import HeaderLink from "./headerlink";
 import Drawer from "./drawer";
 
 const Header: React.FC = () => {
+  const location = useLocation();
   const { colorMode, toggleColorMode } = useColorMode();
   const [isSmallerDevice] = useMediaQuery("(max-width: 600px)");
+
+  // Define an array of routes where the header should not be displayed
+  const headerHiddenRoutes = ["/login", "/signup"];
+
+  // Check if the current route is in the headerHiddenRoutes array
+  const isHeaderHidden = headerHiddenRoutes.includes(location.pathname);
+
+  // Render the header only if it should be visible
+  if (isHeaderHidden) {
+    return null;
+  }
 
   return (
     <>
