@@ -1,4 +1,5 @@
 import React from "react";
+import { Link as ReactLink } from "react-router-dom";
 import {
   Text,
   Container,
@@ -35,7 +36,12 @@ const Applications: React.FC = () => {
           <option value="option2">Option 2</option>
           <option value="option3">Option 3</option>
         </Select>
-        <Button colorScheme="nigga" size={{ base: "xs", sm: "sm", md: "md" }}>
+        <Button
+          as={ReactLink}
+          to="/applications/new"
+          colorScheme="nigga"
+          size={{ base: "xs", sm: "sm", md: "md" }}
+        >
           Add New
         </Button>
       </Flex>

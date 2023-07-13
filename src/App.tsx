@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 // Pages
 import Dashboard from "./pages/Dashboard";
 import Applications from "./pages/Applications";
+import ApplicationForm from "./pages/form/ApplicationForm";
 import NoMatch from "./pages/NoMatch";
 import Login from "./pages/auth/Login";
 import Signup from "./pages/auth/Signup";
@@ -20,6 +21,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/applications" element={<Applications />} />
+        <Route path="/applications/new" element={<ApplicationForm />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="*" element={<NoMatch />} />
       </Routes>
