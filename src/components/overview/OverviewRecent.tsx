@@ -64,7 +64,7 @@ const recentData = [
 
 const OverviewRecent: React.FC = () => {
   return (
-    <Card borderRadius="xl">
+    <Card borderRadius="xl" variant="outline" shadow="sm">
       <CardBody>
         <Text fontSize="xl" as="b">
           Recent Application
