@@ -6,6 +6,7 @@ import Applications from "./pages/Applications";
 import NoMatch from "./pages/NoMatch";
 import Login from "./pages/auth/Login";
 import Signup from "./pages/auth/Signup";
+import Profile from "./pages/Profile";
 
 // Components
 import Header from "./components/header/Header";
@@ -19,6 +20,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/applications" element={<Applications />} />
+        <Route path="/profile" element={<Profile />} />
         <Route path="*" element={<NoMatch />} />
       </Routes>
     </Router>
