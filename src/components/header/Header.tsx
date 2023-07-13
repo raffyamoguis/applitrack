@@ -1,10 +1,13 @@
 import React from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, Link as ReactLink } from "react-router-dom";
 import {
   Flex,
   Spacer,
   Divider,
   HStack,
+  Switch,
+  FormControl,
+  FormLabel,
   Avatar,
   Text,
   Menu,
@@ -57,7 +60,7 @@ const Header: React.FC = () => {
             <HeaderLink title="Overview" to="/" />
             <HeaderLink title="Applications" to="applications" />
 
-            <Menu>
+            <Menu closeOnSelect={false}>
               <MenuButton>
                 <Avatar
                   size={`${isSmallerDevice ? "sm" : "md"}`}
@@ -66,10 +69,28 @@ const Header: React.FC = () => {
                 />
               </MenuButton>
               <MenuList>
-                <MenuItem onClick={toggleColorMode}>
-                  {colorMode === "light" ? "Darkmode" : "Lightmode"}
+                <MenuItem>
+                  <FormControl display="flex" alignItems="center">
+                    <FormLabel
+                      htmlFor="darkmode-switch"
+                      mb="0"
+                      flex="1"
+                      pr="4"
+                      fontWeight={500}
+                    >
+                      Darkmode
+                    </FormLabel>
+                    <Switch
+                      id="darkmode-switch"
+                      colorScheme="nigga"
+                      isChecked={colorMode === "dark"}
+                      onChange={toggleColorMode}
+                    />
+                  </FormControl>
                 </MenuItem>
-                <MenuItem>Profile</MenuItem>
+                <MenuItem as={ReactLink} to="/profile">
+                  Profile
+                </MenuItem>
                 <MenuItem>Logout</MenuItem>
               </MenuList>
             </Menu>
