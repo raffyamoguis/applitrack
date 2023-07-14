@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link as ReactLink } from "react-router-dom";
 import {
   Text,
@@ -13,6 +13,12 @@ import {
 import ApplicationCards from "../components/application/ApplicationCards";
 
 const Applications: React.FC = () => {
+  const [totalApplications, setTotalApplications] = useState<number>(0);
+
+  const handleTotalApplications = (total: number) => {
+    // Update parent component state or perform actions with the received data
+    setTotalApplications(total);
+  };
   return (
     <Container maxW="container.xl">
       <Flex alignItems="center" mt="5" gap="2">
@@ -20,9 +26,10 @@ const Applications: React.FC = () => {
           Applications
         </Text>
       </Flex>
+
       <Flex alignItems="center" mt="10" gap="2">
         <Text fontSize="sm" as="b">
-          300 total applications.
+          {totalApplications} total applications.
         </Text>
 
         <Spacer />
@@ -45,7 +52,7 @@ const Applications: React.FC = () => {
           Add New
         </Button>
       </Flex>
-      <ApplicationCards />
+      <ApplicationCards sendTotalApplications={handleTotalApplications} />
     </Container>
   );
 };

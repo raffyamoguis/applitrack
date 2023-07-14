@@ -1,74 +1,59 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { SimpleGrid } from "@chakra-ui/react";
 import ApplicationCard from "./applicationcard";
 
-const applicationData = [
-  {
-    name: "Company X",
-    date: "January 01, 2090",
-    position: "Frontend Engineer",
-    status: "Ongoing Application",
-  },
-  {
-    name: "Company Y",
-    date: "January 12, 2080",
-    position: "Frontend Developer",
-    status: "Ongoing Application",
-  },
-  {
-    name: "Company Z",
-    date: "February 01, 2090",
-    position: "Software Engineer",
-    status: "Initial Interview",
-  },
-  {
-    name: "ABC Ltd.",
-    date: "February 22, 2090",
-    position: "Software Engineer",
-    status: "Initial Interview",
-  },
-  {
-    name: "Google",
-    date: "February 01, 2090",
-    position: "Head Software Engineer",
-    status: "Initial Interview",
-  },
-  {
-    name: "OpenAI",
-    date: "February 9, 2090",
-    position: "AI Engineer",
-    status: "Initial Interview",
-  },
-  {
-    name: "Microsoft",
-    date: "February 01, 2090",
-    position: "Software Engineer",
-    status: "Initial Interview",
-  },
-  {
-    name: "Meta",
-    date: "February 01, 2090",
-    position: "Software Engineer",
-    status: "Final Interview",
-  },
-  {
-    name: "Tesla",
-    date: "February 01, 2060",
-    position: "Driver",
-    status: "Initial Interview",
-  },
-];
+import {
+  COLLECTION_ID_APPLICATIONS,
+  DATABASE_ID,
+  databases,
+} from "../../appwriteConfig";
 
-const ApplicationCards: React.FC = () => {
+// Helper
+import { formatDate } from "../../helpers/util";
+
+type applicationTypes = {
+  $id: string;
+  $createdAt: string;
+  name: string;
+  info: string;
+  position_applied: string;
+  status: string;
+};
+
+interface ApplicationProps {
+  sendTotalApplications: (total: number) => void;
+}
+
+const ApplicationCards: React.FC<ApplicationProps> = ({
+  sendTotalApplications,
+}) => {
+  const [applications, setApplications] = useState<applicationTypes[] | null>(
+    []
+  );
+
+  useEffect(() => {
+    fetchApplications();
+  }, []);
+
+  const fetchApplications = async () => {
+    const response = await databases.listDocuments(
+      DATABASE_ID,
+      COLLECTION_ID_APPLICATIONS
+    );
+
+    console.log("RESPONSE: ", response);
+    setApplications(response.documents);
+    sendTotalApplications(response.total);
+  };
   return (
     <SimpleGrid columns={[1, 2, 3, 4]} spacing={4} marginTop={4}>
-      {applicationData.map((item, key) => (
+      {applications?.map((application) => (
         <ApplicationCard
-          key={key}
-          name={item.name}
-          date={item.date}
-          status={item.status}
-          position={item.position}
+          key={application.$id}
+          name={application.name}
+          date={formatDate(application.$createdAt)}
+          status={application.status}
+          position={application.position_applied}
         />
       ))}
     </SimpleGrid>
