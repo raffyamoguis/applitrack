@@ -1,12 +1,7 @@
-import React, { useState, useEffect } from "react";
-import { SimpleGrid } from "@chakra-ui/react";
+import React from "react";
+import { SimpleGrid, SkeletonText } from "@chakra-ui/react";
 import ApplicationCard from "./applicationcard";
-
-import {
-  COLLECTION_ID_APPLICATIONS,
-  DATABASE_ID,
-  databases,
-} from "../../appwriteConfig";
+import useApplications from "../../hooks/useApplications";
 
 // Helper
 import { formatDate } from "../../helpers/util";
@@ -27,35 +22,47 @@ interface ApplicationProps {
 const ApplicationCards: React.FC<ApplicationProps> = ({
   sendTotalApplications,
 }) => {
-  const [applications, setApplications] = useState<applicationTypes[] | null>(
-    []
-  );
+  const {
+    data: applications,
+    isLoading,
+    isError,
+    error,
+    isSuccess,
+  } = useApplications();
+  // if (isLoading) {
+  //   return <div>Loading...</div>;
+  // }
 
-  useEffect(() => {
-    fetchApplications();
-  }, []);
+  if (isSuccess) {
+    sendTotalApplications(applications.total);
+  }
 
-  const fetchApplications = async () => {
-    const response = await databases.listDocuments(
-      DATABASE_ID,
-      COLLECTION_ID_APPLICATIONS
-    );
-
-    console.log("RESPONSE: ", response);
-    setApplications(response.documents);
-    sendTotalApplications(response.total);
-  };
+  if (isError) {
+    return <div>Error: {String(error)}</div>;
+  }
   return (
     <SimpleGrid columns={[1, 2, 3, 4]} spacing={4} marginTop={4}>
-      {applications?.map((application) => (
-        <ApplicationCard
-          key={application.$id}
-          name={application.name}
-          date={formatDate(application.$createdAt)}
-          status={application.status}
-          position={application.position_applied}
-        />
-      ))}
+      {isLoading
+        ? Array.from({ length: 4 }).map((_, index) => (
+            <SkeletonText
+              key={index}
+              p="2"
+              mt="10"
+              noOfLines={4}
+              spacing="4"
+              skeletonHeight="2"
+              borderRadius="xl"
+            />
+          ))
+        : applications?.documents.map((application: applicationTypes) => (
+            <ApplicationCard
+              key={application.$id}
+              name={application.name}
+              date={formatDate(application.$createdAt)}
+              status={application.status}
+              position={application.position_applied}
+            />
+          ))}
     </SimpleGrid>
   );
 };
