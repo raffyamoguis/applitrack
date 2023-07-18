@@ -45,14 +45,16 @@ const ApplicationForm: React.FC = () => {
             title: "Application created.",
             description: "We've created your application for you.",
             status: "success",
-            duration: 9000,
+            position: "bottom-right",
+            variant: "left-accent",
+            duration: 5000,
             isClosable: true,
           });
           // Reset form
           setName("");
           setInfo("");
           setPosition("");
-          setStatus("");
+          setStatus("Applied");
         },
       }
     );
