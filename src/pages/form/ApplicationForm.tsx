@@ -86,6 +86,7 @@ const ApplicationForm: React.FC = () => {
             placeholder="Name"
             value={name}
             onChange={(e) => setName(e.target.value)}
+            required
           />
           <Input
             mb="4"
@@ -100,6 +101,7 @@ const ApplicationForm: React.FC = () => {
             placeholder="Position"
             value={position}
             onChange={(e) => setPosition(e.target.value)}
+            required
           />
           <Input
             mb="4"
@@ -107,6 +109,7 @@ const ApplicationForm: React.FC = () => {
             placeholder="Status"
             value={status}
             onChange={(e) => setStatus(e.target.value)}
+            required
           />
           <Button
             w="100%"
