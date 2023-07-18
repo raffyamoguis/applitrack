@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   Container,
@@ -6,32 +6,69 @@ import {
   Text,
   Flex,
   Button,
-  Spacer,
   Input,
-  InputGroup,
-  InputLeftElement,
   Icon,
+  Tooltip,
+  useToast,
 } from "@chakra-ui/react";
-import {
-  IconReportAnalytics,
-  IconInfoSquareRounded,
-  IconReplaceFilled,
-} from "@tabler/icons-react";
+import { IconChevronLeft } from "@tabler/icons-react";
+import { useQueryClient } from "react-query";
+
+import useAddApplication from "../../hooks/useAddApplication";
 
 const ApplicationForm: React.FC = () => {
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
+  const toast = useToast();
+  const useAddApplicationMutation = useAddApplication();
+  const [name, setName] = useState<string>("");
+  const [info, setInfo] = useState<string>("");
+  const [position, setPosition] = useState<string>("");
+  const [status, setStatus] = useState<string>("Applied");
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    useAddApplicationMutation.mutate(
+      {
+        name: name,
+        info: info,
+        position_applied: position,
+        status: status,
+        // user_id: newItem.user_id,
+      },
+      {
+        onSuccess: () => {
+          // Invalidate and refetch relevant queries after successful addition
+          queryClient.invalidateQueries("applications");
+          // Show toast
+          toast({
+            title: "Application created.",
+            description: "We've created your application for you.",
+            status: "success",
+            duration: 9000,
+            isClosable: true,
+          });
+          // Reset form
+          setName("");
+          setInfo("");
+          setPosition("");
+          setStatus("");
+        },
+      }
+    );
+  };
 
   return (
     <Container maxW="container.md">
-      <Flex alignItems="center" mt="4">
-        <Button
-          colorScheme="nigga"
-          variant="ghost"
-          onClick={() => navigate(-1)}
-        >
-          Go back
-        </Button>
-        <Spacer />
+      <Flex alignItems="center" mt="4" gap={1}>
+        <Tooltip hasArrow label="Go back" fontSize="sm">
+          <Icon
+            as={IconChevronLeft}
+            boxSize={6}
+            _hover={{ color: "gray" }}
+            onClick={() => navigate(-1)}
+          />
+        </Tooltip>
         <Text fontSize={{ base: "xl", sm: "2xl" }} as="b">
           Create new
         </Text>
@@ -41,27 +78,46 @@ const ApplicationForm: React.FC = () => {
         <Text mt="18" mb="2" fontSize="lg" fontWeight="500">
           Company
         </Text>
-        <InputGroup mb="4">
-          <InputLeftElement pointerEvents="none">
-            <Icon as={IconReportAnalytics} color="gray.300" />
-          </InputLeftElement>
-          <Input type="text" placeholder="Name" />
-        </InputGroup>
-        <InputGroup mb="4">
-          <InputLeftElement pointerEvents="none">
-            <Icon as={IconInfoSquareRounded} color="gray.300" />
-          </InputLeftElement>
-          <Input type="text" placeholder="Info" />
-        </InputGroup>
-        <InputGroup mb="5">
-          <InputLeftElement pointerEvents="none">
-            <Icon as={IconReplaceFilled} color="gray.300" />
-          </InputLeftElement>
-          <Input type="text" placeholder="Position" />
-        </InputGroup>
-        <Button w="100%" colorScheme="nigga">
-          Create
-        </Button>
+
+        <form onSubmit={handleSubmit}>
+          <Input
+            mb="4"
+            type="text"
+            placeholder="Name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          />
+          <Input
+            mb="4"
+            type="text"
+            placeholder="Info"
+            value={info}
+            onChange={(e) => setInfo(e.target.value)}
+          />
+          <Input
+            mb="4"
+            type="text"
+            placeholder="Position"
+            value={position}
+            onChange={(e) => setPosition(e.target.value)}
+          />
+          <Input
+            mb="4"
+            type="text"
+            placeholder="Status"
+            value={status}
+            onChange={(e) => setStatus(e.target.value)}
+          />
+          <Button
+            w="100%"
+            colorScheme="nigga"
+            isLoading={useAddApplicationMutation.isLoading}
+            loadingText="Creating"
+            type="submit"
+          >
+            Create
+          </Button>
+        </form>
       </Box>
     </Container>
   );

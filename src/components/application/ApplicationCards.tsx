@@ -2,9 +2,9 @@ import React from "react";
 import { SimpleGrid, SkeletonText } from "@chakra-ui/react";
 import ApplicationCard from "./applicationcard";
 import useApplications from "../../hooks/useApplications";
+import useDeleteApplication from "../../hooks/useDeleteApplication";
 
 // Helper
-import { formatDate } from "../../helpers/util";
 
 type applicationTypes = {
   $id: string;
@@ -22,6 +22,9 @@ interface ApplicationProps {
 const ApplicationCards: React.FC<ApplicationProps> = ({
   sendTotalApplications,
 }) => {
+  //Delete mutation
+  const deleteItemApplication = useDeleteApplication();
+  // Fetch applications
   const {
     data: applications,
     isLoading,
@@ -29,9 +32,10 @@ const ApplicationCards: React.FC<ApplicationProps> = ({
     error,
     isSuccess,
   } = useApplications();
-  // if (isLoading) {
-  //   return <div>Loading...</div>;
-  // }
+
+  const handleDeleteApplication = async (itemId: string) => {
+    deleteItemApplication.mutate(itemId);
+  };
 
   if (isSuccess) {
     sendTotalApplications(applications.total);
@@ -57,10 +61,8 @@ const ApplicationCards: React.FC<ApplicationProps> = ({
         : applications?.documents.map((application: applicationTypes) => (
             <ApplicationCard
               key={application.$id}
-              name={application.name}
-              date={formatDate(application.$createdAt)}
-              status={application.status}
-              position={application.position_applied}
+              application={application}
+              onDelete={handleDeleteApplication}
             />
           ))}
     </SimpleGrid>

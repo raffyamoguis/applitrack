@@ -1,4 +1,4 @@
-import { Client, Databases } from 'appwrite';
+import { Client, Databases} from 'appwrite';
 
 export const PROJECT_ID = import.meta.env.VITE_PROJECT_ID;
 export const DATABASE_ID = import.meta.env.VITE_DATABASE_ID;
