@@ -1,8 +1,8 @@
 import React from "react";
 import { SimpleGrid, SkeletonText } from "@chakra-ui/react";
 import ApplicationCard from "./applicationcard";
-import useApplications from "../../hooks/useApplications";
-import useDeleteApplication from "../../hooks/useDeleteApplication";
+import useApplications from "../../hooks/application/useApplications";
+import useDeleteApplication from "../../hooks/application/useDeleteApplication";
 
 // Helper
 

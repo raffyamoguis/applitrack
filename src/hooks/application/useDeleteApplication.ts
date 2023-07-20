@@ -4,7 +4,7 @@ import {
   COLLECTION_ID_APPLICATIONS,
   DATABASE_ID,
   databases,
-} from "../appwriteConfig";
+} from "../../appwriteConfig";
 
 const deleteApplication = async (id:string) => {
     try {

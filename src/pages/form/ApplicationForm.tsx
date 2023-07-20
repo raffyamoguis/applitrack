@@ -14,7 +14,7 @@ import {
 import { IconChevronLeft } from "@tabler/icons-react";
 import { useQueryClient } from "react-query";
 
-import useAddApplication from "../../hooks/useAddApplication";
+import useAddApplication from "../../hooks/application/useAddApplication";
 
 const ApplicationForm: React.FC = () => {
   const navigate = useNavigate();
