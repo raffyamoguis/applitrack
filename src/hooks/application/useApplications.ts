@@ -1,4 +1,5 @@
 import { useQuery } from 'react-query';
+import { Query } from "appwrite";
 import {
   COLLECTION_ID_APPLICATIONS,
   DATABASE_ID,
@@ -6,12 +7,17 @@ import {
 } from "../../appwriteConfig";
 
 
-const fetchApplications = async () => {
+const fetchApplications = async (id:string) => {
   try {
     // Call the Appwrite API endpoint to fetch projects
     const response = await databases.listDocuments(
       DATABASE_ID,
-      COLLECTION_ID_APPLICATIONS
+      COLLECTION_ID_APPLICATIONS,
+      [
+        
+        Query.orderDesc('$createdAt'),
+        Query.equal('user_id', id),
+      ]
     );
     return response;
   } catch (error) {
@@ -19,8 +25,8 @@ const fetchApplications = async () => {
   }
 };
 
-const useApplications = () => {
-  return useQuery('applications', fetchApplications);
+const useApplications = (id:string) => {
+  return useQuery('applications',() => fetchApplications(id));
 };
 
 export default useApplications;

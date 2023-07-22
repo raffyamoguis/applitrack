@@ -3,7 +3,7 @@ import { SimpleGrid, SkeletonText } from "@chakra-ui/react";
 import ApplicationCard from "./applicationcard";
 import useApplications from "../../hooks/application/useApplications";
 import useDeleteApplication from "../../hooks/application/useDeleteApplication";
-
+import { useAuth } from "../../utils/AuthContext";
 // Helper
 
 type applicationTypes = {
@@ -22,6 +22,7 @@ interface ApplicationProps {
 const ApplicationCards: React.FC<ApplicationProps> = ({
   sendTotalApplications,
 }) => {
+  const { user } = useAuth();
   //Delete mutation
   const deleteItemApplication = useDeleteApplication();
   // Fetch applications
@@ -31,7 +32,7 @@ const ApplicationCards: React.FC<ApplicationProps> = ({
     isError,
     error,
     isSuccess,
-  } = useApplications();
+  } = useApplications(user.$id);
 
   const handleDeleteApplication = async (itemId: string) => {
     deleteItemApplication.mutate(itemId);
