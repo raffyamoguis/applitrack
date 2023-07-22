@@ -31,7 +31,7 @@ const Dashboard: React.FC = () => {
       {applications?.total !== 0 && !isLoading ? (
         <>
           <OverviewCards />
-          <OverviewStats />{" "}
+          <OverviewStats applications={applications.documents} />{" "}
         </>
       ) : (
         <Text>You don't have any applications for now.</Text>
