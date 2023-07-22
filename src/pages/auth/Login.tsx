@@ -36,17 +36,17 @@ const Login: React.FC = () => {
     formState: { errors },
   } = useForm<CredentialsProps>();
 
-  const [credentials, setCredentials] = useState<CredentialsProps>({
-    email: "",
-    password: "",
-  });
+  // const [credentials, setCredentials] = useState<CredentialsProps>({
+  //   email: "",
+  //   password: "",
+  // });
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const name = e.target.name;
-    const value = e.target.value;
+  // const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   const name = e.target.name;
+  //   const value = e.target.value;
 
-    setCredentials({ ...credentials, [name]: value });
-  };
+  //   setCredentials({ ...credentials, [name]: value });
+  // };
 
   useEffect(() => {
     // Faulty guard.
