@@ -1,10 +1,13 @@
 import React, { createContext, useState, useEffect, useContext } from "react";
+import { useToast } from "@chakra-ui/react";
 import { ID } from "appwrite";
 import { useNavigate } from "react-router-dom";
 import { account } from "../appwriteConfig";
 
 interface AuthContextData {
   user: any; // Replace 'any' with the actual type of your user object
+  isLoggingIn: boolean;
+  isCreatingAcc: boolean;
   handleUserLogin: (credentials: any) => void;
   handleUserRegister: (credentials: any) => void;
   handleUserLogout: () => void;
@@ -12,6 +15,8 @@ interface AuthContextData {
 
 const AuthContext = createContext<AuthContextData>({
   user: null,
+  isLoggingIn: false,
+  isCreatingAcc: false,
   handleUserLogin: (_credentials: any) => {},
   handleUserRegister: (_credentials: any) => {},
   handleUserLogout: () => {},
@@ -23,8 +28,11 @@ interface Props {
 
 export const AuthProvider: React.FC<Props> = ({ children }) => {
   const navigate = useNavigate();
+  const toast = useToast();
   const [loading, setLoading] = useState<boolean>(true);
   const [user, setUser] = useState<any>(null);
+  const [isLoggingIn, setLoggingIn] = useState<boolean>(false);
+  const [isCreatingAcc, setCreatingAcc] = useState<boolean>(false);
 
   const getUserOnLoad = async () => {
     try {
@@ -38,20 +46,31 @@ export const AuthProvider: React.FC<Props> = ({ children }) => {
   };
 
   const handleUserLogin = async (credentials: any) => {
+    setLoggingIn(true);
     try {
       await account.createEmailSession(credentials.email, credentials.password);
 
       const accountDetails = await account.get();
 
       setUser(accountDetails);
-
+      setLoggingIn(false);
       navigate("/");
     } catch (error) {
       console.error(error);
+      setLoggingIn(false);
+      toast({
+        title: "Error.",
+        description: "" + error,
+        status: "error",
+        variant: "left-accent",
+        duration: 5000,
+        isClosable: true,
+      });
     }
   };
 
   const handleUserRegister = async (credentials: any) => {
+    setCreatingAcc(true);
     try {
       await account.create(
         ID.unique(),
@@ -65,10 +84,19 @@ export const AuthProvider: React.FC<Props> = ({ children }) => {
       const accountDetails = await account.get();
 
       setUser(accountDetails);
-
+      setCreatingAcc(false);
       navigate("/");
     } catch (error) {
       console.log(error);
+      setCreatingAcc(false);
+      toast({
+        title: "Error.",
+        description: "" + error,
+        status: "error",
+        variant: "left-accent",
+        duration: 5000,
+        isClosable: true,
+      });
     }
   };
 
@@ -79,6 +107,8 @@ export const AuthProvider: React.FC<Props> = ({ children }) => {
 
   const contextData = {
     user,
+    isLoggingIn,
+    isCreatingAcc,
     handleUserLogin,
     handleUserRegister,
     handleUserLogout,

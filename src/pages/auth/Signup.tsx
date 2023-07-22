@@ -35,7 +35,7 @@ const Login: React.FC = () => {
   } = useForm<FormInput>();
   const [show, setShow] = useState(false);
   const handleClick = () => setShow(!show);
-  const { handleUserRegister } = useAuth();
+  const { isCreatingAcc, handleUserRegister } = useAuth();
 
   const onSubmit = (data: FormInput) => {
     handleUserRegister(data);
@@ -166,6 +166,8 @@ const Login: React.FC = () => {
                 mt={{ base: "2", sm: "10" }}
                 w="100%"
                 size={{ base: "md", md: "lg" }}
+                isLoading={isCreatingAcc}
+                loadingText="Creating account"
               >
                 Create account
               </Button>

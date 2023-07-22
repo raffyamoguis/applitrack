@@ -28,7 +28,7 @@ const Login: React.FC = () => {
   const navigate = useNavigate();
   const [show, setShow] = useState(false);
   const handleClick = () => setShow(!show);
-  const { user, handleUserLogin } = useAuth();
+  const { user, isLoggingIn, handleUserLogin } = useAuth();
 
   const {
     register,
@@ -141,6 +141,8 @@ const Login: React.FC = () => {
                 w="100%"
                 mt={{ base: "4", sm: "10" }}
                 size={{ base: "md", md: "lg" }}
+                isLoading={isLoggingIn}
+                loadingText="Logging in"
               >
                 Login
               </Button>
