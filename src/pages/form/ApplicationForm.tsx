@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 import { useNavigate } from "react-router-dom";
+import { useForm } from "react-hook-form";
 import {
   Container,
   Box,
@@ -7,6 +8,8 @@ import {
   Flex,
   Button,
   Input,
+  FormControl,
+  FormErrorMessage,
   Icon,
   Tooltip,
   useToast,
@@ -16,48 +19,42 @@ import { useQueryClient } from "react-query";
 
 import useAddApplication from "../../hooks/application/useAddApplication";
 
+interface ApplicationInput {
+  name: string;
+  info: string;
+  position_applied: string;
+  status: string;
+}
+
 const ApplicationForm: React.FC = () => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const toast = useToast();
   const useAddApplicationMutation = useAddApplication();
-  const [name, setName] = useState<string>("");
-  const [info, setInfo] = useState<string>("");
-  const [position, setPosition] = useState<string>("");
-  const [status, setStatus] = useState<string>("Applied");
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    useAddApplicationMutation.mutate(
-      {
-        name: name,
-        info: info,
-        position_applied: position,
-        status: status,
-        // user_id: newItem.user_id,
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm<ApplicationInput>();
+
+  const onSubmit = (application: ApplicationInput) => {
+    useAddApplicationMutation.mutate(application, {
+      onSuccess: () => {
+        queryClient.invalidateQueries("applications");
+        toast({
+          title: "Application created.",
+          description: "We've created your application for you.",
+          status: "success",
+          position: "bottom-right",
+          variant: "left-accent",
+          duration: 5000,
+          isClosable: true,
+        });
+        reset({});
       },
-      {
-        onSuccess: () => {
-          // Invalidate and refetch relevant queries after successful addition
-          queryClient.invalidateQueries("applications");
-          // Show toast
-          toast({
-            title: "Application created.",
-            description: "We've created your application for you.",
-            status: "success",
-            position: "bottom-right",
-            variant: "left-accent",
-            duration: 5000,
-            isClosable: true,
-          });
-          // Reset form
-          setName("");
-          setInfo("");
-          setPosition("");
-          setStatus("Applied");
-        },
-      }
-    );
+    });
   };
 
   return (
@@ -81,38 +78,48 @@ const ApplicationForm: React.FC = () => {
           Company
         </Text>
 
-        <form onSubmit={handleSubmit}>
-          <Input
-            mb="4"
-            type="text"
-            placeholder="Name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            required
-          />
-          <Input
-            mb="4"
-            type="text"
-            placeholder="Info"
-            value={info}
-            onChange={(e) => setInfo(e.target.value)}
-          />
-          <Input
-            mb="4"
-            type="text"
-            placeholder="Position"
-            value={position}
-            onChange={(e) => setPosition(e.target.value)}
-            required
-          />
-          <Input
-            mb="4"
-            type="text"
-            placeholder="Status"
-            value={status}
-            onChange={(e) => setStatus(e.target.value)}
-            required
-          />
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <FormControl isInvalid={!!errors.name?.message}>
+            <Input
+              mb="4"
+              type="text"
+              placeholder="Name"
+              {...register("name", {
+                required: "Name is required",
+              })}
+            />
+            <FormErrorMessage mt="-3" mb="2">
+              {errors.name && errors.name.message}
+            </FormErrorMessage>
+          </FormControl>
+          <Input mb="4" type="text" placeholder="Info" {...register("info")} />
+          <FormControl isInvalid={!!errors.position_applied?.message}>
+            <Input
+              mb="4"
+              type="text"
+              placeholder="Position"
+              {...register("position_applied", {
+                required: "Position is required",
+              })}
+            />
+            <FormErrorMessage mt="-3" mb="2">
+              {errors.position_applied && errors.position_applied.message}
+            </FormErrorMessage>
+          </FormControl>
+          <FormControl isInvalid={!!errors.status?.message}>
+            <Input
+              mb="4"
+              type="text"
+              placeholder="Status"
+              defaultValue="Applied"
+              {...register("status", {
+                required: "Status is required",
+              })}
+            />
+            <FormErrorMessage mt="-3" mb="2">
+              {errors.status && errors.status.message}
+            </FormErrorMessage>
+          </FormControl>
           <Button
             w="100%"
             colorScheme="nigga"
