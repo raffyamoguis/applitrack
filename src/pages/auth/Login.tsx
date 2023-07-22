@@ -12,9 +12,12 @@ import {
   Button,
   Link,
   Flex,
+  FormControl,
+  FormErrorMessage,
 } from "@chakra-ui/react";
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 import { useAuth } from "../../utils/AuthContext";
+import { useForm } from "react-hook-form";
 
 interface CredentialsProps {
   email: string;
@@ -26,6 +29,12 @@ const Login: React.FC = () => {
   const [show, setShow] = useState(false);
   const handleClick = () => setShow(!show);
   const { user, handleUserLogin } = useAuth();
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<CredentialsProps>();
 
   const [credentials, setCredentials] = useState<CredentialsProps>({
     email: "",
@@ -46,6 +55,10 @@ const Login: React.FC = () => {
     }
   }, []);
 
+  const onSubmit = (data: CredentialsProps) => {
+    handleUserLogin(data);
+  };
+
   return (
     <Box position="relative" h="100vh">
       <AbsoluteCenter p="4" color="gray" axis="both">
@@ -64,48 +77,64 @@ const Login: React.FC = () => {
             <Text as="b" fontSize="xl">
               Login
             </Text>
-            <form onSubmit={(e) => handleUserLogin(e, credentials)}>
-              <Input
-                type="email"
-                placeholder="Enter email"
-                size={{ base: "md", md: "lg" }}
-                mt={{ base: "10", md: "20" }}
-                mb={{ base: "3", sm: "5" }}
-                focusBorderColor="#2f2f31"
-                name="email"
-                value={credentials.email}
-                onChange={handleInputChange}
-                required
-              />
-              <InputGroup
-                mb={{ base: "3", sm: "5" }}
-                size={{ base: "md", md: "lg" }}
-                alignItems="center"
-              >
+            <form onSubmit={handleSubmit(onSubmit)}>
+              <FormControl isInvalid={!!errors.email?.message}>
                 <Input
-                  pr="4.5rem"
-                  type={show ? "text" : "password"}
-                  placeholder="Enter password"
+                  type="text"
+                  placeholder="Enter email"
+                  size={{ base: "md", md: "lg" }}
+                  mt={{ base: "10", md: "20" }}
+                  mb={{ base: "3", sm: "5" }}
                   focusBorderColor="#2f2f31"
-                  name="password"
-                  value={credentials.password}
-                  onChange={handleInputChange}
-                  required
-                />
-                <Flex alignItems="center">
-                  <InputRightElement
-                    width="4.5rem"
-                    h="100%"
-                    onClick={handleClick}
-                  >
-                    {show ? (
-                      <ViewOffIcon color="gray" />
-                    ) : (
-                      <ViewIcon color="gray" />
-                    )}
-                  </InputRightElement>
-                </Flex>
-              </InputGroup>
+                  {...register("email", {
+                    required: "This is required",
+                    pattern: {
+                      value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                      message: "Invalid email address",
+                    },
+                  })}
+                />{" "}
+                <FormErrorMessage mt="-4" mb="2">
+                  {errors.email && errors.email.message}
+                </FormErrorMessage>
+              </FormControl>
+              <FormControl isInvalid={!!errors.password?.message}>
+                <InputGroup
+                  mb={{ base: "3", sm: "5" }}
+                  size={{ base: "md", md: "lg" }}
+                  alignItems="center"
+                >
+                  <Input
+                    pr="4.5rem"
+                    type={show ? "text" : "password"}
+                    placeholder="Enter password"
+                    focusBorderColor="#2f2f31"
+                    {...register("password", {
+                      required: "Password is required",
+                      minLength: {
+                        value: 8,
+                        message: "Password must be at least 8 characters long",
+                      },
+                    })}
+                  />
+                  <Flex alignItems="center">
+                    <InputRightElement
+                      width="4.5rem"
+                      h="100%"
+                      onClick={handleClick}
+                    >
+                      {show ? (
+                        <ViewOffIcon color="gray" />
+                      ) : (
+                        <ViewIcon color="gray" />
+                      )}
+                    </InputRightElement>
+                  </Flex>
+                </InputGroup>
+                <FormErrorMessage mt="-4" mb="2">
+                  {errors.password && errors.password.message}
+                </FormErrorMessage>
+              </FormControl>
               <Button
                 type="submit"
                 colorScheme="nigga"

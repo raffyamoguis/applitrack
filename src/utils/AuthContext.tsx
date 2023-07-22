@@ -5,14 +5,14 @@ import { account } from "../appwriteConfig";
 
 interface AuthContextData {
   user: any; // Replace 'any' with the actual type of your user object
-  handleUserLogin: (e: React.FormEvent, credentials: any) => void;
+  handleUserLogin: (credentials: any) => void;
   handleUserRegister: (credentials: any) => void;
   handleUserLogout: () => void;
 }
 
 const AuthContext = createContext<AuthContextData>({
   user: null,
-  handleUserLogin: (_e: React.FormEvent, _credentials: any) => {},
+  handleUserLogin: (_credentials: any) => {},
   handleUserRegister: (_credentials: any) => {},
   handleUserLogout: () => {},
 });
@@ -37,9 +37,7 @@ export const AuthProvider: React.FC<Props> = ({ children }) => {
     setLoading(false);
   };
 
-  const handleUserLogin = async (e: React.FormEvent, credentials: any) => {
-    e.preventDefault();
-
+  const handleUserLogin = async (credentials: any) => {
     try {
       await account.createEmailSession(credentials.email, credentials.password);
 

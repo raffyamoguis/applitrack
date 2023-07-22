@@ -14,8 +14,10 @@ import {
   Spacer,
 } from "@chakra-ui/react";
 import { EditIcon } from "@chakra-ui/icons";
+import { useAuth } from "../utils/AuthContext";
 
 const Profile: React.FC = () => {
+  const { user } = useAuth();
   return (
     <Container maxW="container.md">
       <Flex alignItems="center" mt="5" gap="2">
@@ -31,7 +33,7 @@ const Profile: React.FC = () => {
           src="https://bit.ly/sage-adebayo"
         />{" "}
         <Text as="b" fontSize="lg">
-          John Doe
+          {user.name}
         </Text>
         <Button
           leftIcon={<EditIcon />}
