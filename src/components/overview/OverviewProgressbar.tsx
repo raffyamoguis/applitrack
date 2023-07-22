@@ -15,7 +15,7 @@ const OverviewProgressbar: React.FC<Props> = ({ title, value }) => {
       <Progress
         value={value}
         colorScheme="nigga"
-        borderRadius="xl"
+        borderRadius="sm"
         height="25px"
         mb="20px"
       />
