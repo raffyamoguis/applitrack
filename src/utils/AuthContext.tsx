@@ -55,13 +55,20 @@ export const AuthProvider: React.FC<Props> = ({ children }) => {
 
   const handleUserRegister = async (credentials: any) => {
     try {
-      const result = await account.create(
+      await account.create(
         ID.unique(),
         credentials.email,
         credentials.password,
         credentials.name
       );
-      console.log(result);
+
+      await account.createEmailSession(credentials.email, credentials.password);
+
+      const accountDetails = await account.get();
+
+      setUser(accountDetails);
+
+      navigate("/");
     } catch (error) {
       console.log(error);
     }
