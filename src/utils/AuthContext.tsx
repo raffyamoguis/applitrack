@@ -1,16 +1,19 @@
 import React, { createContext, useState, useEffect, useContext } from "react";
+import { ID } from "appwrite";
 import { useNavigate } from "react-router-dom";
 import { account } from "../appwriteConfig";
 
 interface AuthContextData {
   user: any; // Replace 'any' with the actual type of your user object
   handleUserLogin: (e: React.FormEvent, credentials: any) => void;
+  handleUserRegister: (credentials: any) => void;
   handleUserLogout: () => void;
 }
 
 const AuthContext = createContext<AuthContextData>({
   user: null,
   handleUserLogin: (_e: React.FormEvent, _credentials: any) => {},
+  handleUserRegister: (_credentials: any) => {},
   handleUserLogout: () => {},
 });
 
@@ -50,6 +53,20 @@ export const AuthProvider: React.FC<Props> = ({ children }) => {
     }
   };
 
+  const handleUserRegister = async (credentials: any) => {
+    try {
+      const result = await account.create(
+        ID.unique(),
+        credentials.email,
+        credentials.password,
+        credentials.name
+      );
+      console.log(result);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const handleUserLogout = async () => {
     await account.deleteSession("current");
     setUser(null);
@@ -58,6 +75,7 @@ export const AuthProvider: React.FC<Props> = ({ children }) => {
   const contextData = {
     user,
     handleUserLogin,
+    handleUserRegister,
     handleUserLogout,
   };
 
