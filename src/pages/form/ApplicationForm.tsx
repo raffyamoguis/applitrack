@@ -18,6 +18,7 @@ import { IconChevronLeft } from "@tabler/icons-react";
 import { useQueryClient } from "react-query";
 
 import useAddApplication from "../../hooks/application/useAddApplication";
+import { useAuth } from "../../utils/AuthContext";
 
 interface ApplicationInput {
   name: string;
@@ -31,6 +32,7 @@ const ApplicationForm: React.FC = () => {
   const queryClient = useQueryClient();
   const toast = useToast();
   const useAddApplicationMutation = useAddApplication();
+  const { user } = useAuth();
 
   const {
     register,
@@ -40,21 +42,30 @@ const ApplicationForm: React.FC = () => {
   } = useForm<ApplicationInput>();
 
   const onSubmit = (application: ApplicationInput) => {
-    useAddApplicationMutation.mutate(application, {
-      onSuccess: () => {
-        queryClient.invalidateQueries("applications");
-        toast({
-          title: "Application created.",
-          description: "We've created your application for you.",
-          status: "success",
-          position: "bottom-right",
-          variant: "left-accent",
-          duration: 5000,
-          isClosable: true,
-        });
-        reset({});
+    useAddApplicationMutation.mutate(
+      {
+        name: application.name,
+        info: application.info,
+        position_applied: application.position_applied,
+        status: application.status,
+        user_id: user.$id,
       },
-    });
+      {
+        onSuccess: () => {
+          queryClient.invalidateQueries("applications");
+          toast({
+            title: "Application created.",
+            description: "We've created your application for you.",
+            status: "success",
+            position: "bottom-right",
+            variant: "left-accent",
+            duration: 5000,
+            isClosable: true,
+          });
+          reset({});
+        },
+      }
+    );
   };
 
   return (
