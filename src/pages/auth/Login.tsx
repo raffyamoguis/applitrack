@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Link as ReactLink } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useNavigate, Link as ReactLink } from "react-router-dom";
 import {
   Box,
   AbsoluteCenter,
@@ -14,10 +14,37 @@ import {
   Flex,
 } from "@chakra-ui/react";
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
+import { useAuth } from "../../utils/AuthContext";
+
+interface CredentialsProps {
+  email: string;
+  password: string;
+}
 
 const Login: React.FC = () => {
+  const navigate = useNavigate();
   const [show, setShow] = useState(false);
   const handleClick = () => setShow(!show);
+  const { user, handleUserLogin } = useAuth();
+
+  const [credentials, setCredentials] = useState<CredentialsProps>({
+    email: "",
+    password: "",
+  });
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const name = e.target.name;
+    const value = e.target.value;
+
+    setCredentials({ ...credentials, [name]: value });
+  };
+
+  useEffect(() => {
+    // Faulty guard.
+    if (user) {
+      navigate("/");
+    }
+  }, []);
 
   return (
     <Box position="relative" h="100vh">
@@ -37,47 +64,58 @@ const Login: React.FC = () => {
             <Text as="b" fontSize="xl">
               Login
             </Text>
-
-            <Input
-              placeholder="Enter email"
-              size={{ base: "md", md: "lg" }}
-              mt={{ base: "10", md: "20" }}
-              mb={{ base: "3", sm: "5" }}
-              focusBorderColor="#2f2f31"
-            />
-            <InputGroup
-              mb={{ base: "3", sm: "5" }}
-              size={{ base: "md", md: "lg" }}
-              alignItems="center"
-            >
+            <form onSubmit={(e) => handleUserLogin(e, credentials)}>
               <Input
-                pr="4.5rem"
-                type={show ? "text" : "password"}
-                placeholder="Enter password"
+                type="email"
+                placeholder="Enter email"
+                size={{ base: "md", md: "lg" }}
+                mt={{ base: "10", md: "20" }}
+                mb={{ base: "3", sm: "5" }}
                 focusBorderColor="#2f2f31"
+                name="email"
+                value={credentials.email}
+                onChange={handleInputChange}
+                required
               />
-              <Flex alignItems="center">
-                <InputRightElement
-                  width="4.5rem"
-                  h="100%"
-                  onClick={handleClick}
-                >
-                  {show ? (
-                    <ViewOffIcon color="gray" />
-                  ) : (
-                    <ViewIcon color="gray" />
-                  )}
-                </InputRightElement>
-              </Flex>
-            </InputGroup>
-            <Button
-              colorScheme="nigga"
-              w="100%"
-              mt={{ base: "4", sm: "10" }}
-              size={{ base: "md", md: "lg" }}
-            >
-              Login
-            </Button>
+              <InputGroup
+                mb={{ base: "3", sm: "5" }}
+                size={{ base: "md", md: "lg" }}
+                alignItems="center"
+              >
+                <Input
+                  pr="4.5rem"
+                  type={show ? "text" : "password"}
+                  placeholder="Enter password"
+                  focusBorderColor="#2f2f31"
+                  name="password"
+                  value={credentials.password}
+                  onChange={handleInputChange}
+                  required
+                />
+                <Flex alignItems="center">
+                  <InputRightElement
+                    width="4.5rem"
+                    h="100%"
+                    onClick={handleClick}
+                  >
+                    {show ? (
+                      <ViewOffIcon color="gray" />
+                    ) : (
+                      <ViewIcon color="gray" />
+                    )}
+                  </InputRightElement>
+                </Flex>
+              </InputGroup>
+              <Button
+                type="submit"
+                colorScheme="nigga"
+                w="100%"
+                mt={{ base: "4", sm: "10" }}
+                size={{ base: "md", md: "lg" }}
+              >
+                Login
+              </Button>
+            </form>
 
             <Link
               as={ReactLink}

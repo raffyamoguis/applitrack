@@ -10,6 +10,7 @@ import {
   Icon,
   VStack,
   HStack,
+  Text,
   StackDivider,
   useDisclosure,
   useColorMode,
@@ -18,10 +19,12 @@ import { IconMenuDeep } from "@tabler/icons-react";
 import { MoonIcon, SunIcon } from "@chakra-ui/icons";
 
 import HeaderLink from "./headerlink";
+import { useAuth } from "../../utils/AuthContext";
 
 const drawer: React.FC = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { colorMode, toggleColorMode } = useColorMode();
+  const { handleUserLogout } = useAuth();
 
   return (
     <>
@@ -55,7 +58,7 @@ const drawer: React.FC = () => {
               <HeaderLink title="Overview" to="/" />
               <HeaderLink title="Applications" to="/applications" />
               <HeaderLink title="Profile" to="/profile" />
-              <HeaderLink title="Logout" to="/logout" />
+              <Text onClick={handleUserLogout}>Logout</Text>
             </VStack>
           </DrawerBody>
         </DrawerContent>

@@ -9,13 +9,9 @@ import {
   HStack,
 } from "@chakra-ui/react";
 import { DeleteIcon, EditIcon } from "@chakra-ui/icons";
-// import {
-//   COLLECTION_ID_APPLICATIONS,
-//   DATABASE_ID,
-//   databases,
-// } from "../../appwriteConfig";
 import Status from "./status";
 import { formatDate } from "../../helpers/util";
+import { useNavigate } from "react-router-dom";
 
 interface Application {
   $id: string;
@@ -32,15 +28,11 @@ interface Props {
 }
 
 const applicationcard: React.FC<Props> = ({ application, onDelete }) => {
-  // const handleDelete = async () => {
-  //   const response = await databases.deleteDocument(
-  //     DATABASE_ID,
-  //     COLLECTION_ID_APPLICATIONS,
-  //     id
-  //   );
+  const navigate = useNavigate();
 
-  //   console.log(response);
-  // };
+  const handleEdit = () => {
+    navigate(`/applications/${application.$id}`);
+  };
   const handleDelete = () => {
     onDelete(application.$id);
   };
@@ -62,7 +54,11 @@ const applicationcard: React.FC<Props> = ({ application, onDelete }) => {
           <Status />
         </Flex>
         <HStack spacing="10px" align="center" justify="start" mt="5">
-          <EditIcon color="gray" _hover={{ color: "black" }} />
+          <EditIcon
+            color="gray"
+            _hover={{ color: "black" }}
+            onClick={handleEdit}
+          />
           <DeleteIcon
             color="gray"
             _hover={{ color: "black" }}

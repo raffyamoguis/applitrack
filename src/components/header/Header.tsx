@@ -23,8 +23,11 @@ import {
 import HeaderLink from "./headerlink";
 import Drawer from "./drawer";
 
+import { useAuth } from "../../utils/AuthContext";
+
 const Header: React.FC = () => {
   const location = useLocation();
+  const { handleUserLogout } = useAuth();
   const { colorMode, toggleColorMode } = useColorMode();
   const [isSmallerDevice] = useMediaQuery("(max-width: 600px)");
 
@@ -91,7 +94,7 @@ const Header: React.FC = () => {
                 <MenuItem as={ReactLink} to="/profile">
                   Profile
                 </MenuItem>
-                <MenuItem>Logout</MenuItem>
+                <MenuItem onClick={handleUserLogout}>Logout</MenuItem>
               </MenuList>
             </Menu>
           </HStack>
