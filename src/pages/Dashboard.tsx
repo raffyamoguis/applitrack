@@ -1,18 +1,17 @@
 import React from "react";
 import { Link as ReactLink } from "react-router-dom";
-import {
-  Text,
-  Container,
-  Flex,
-  Select,
-  Button,
-  Spacer,
-} from "@chakra-ui/react";
+import { Text, Container, Flex, Button, Spacer } from "@chakra-ui/react";
+import { useAuth } from "../utils/AuthContext";
+import useApplications from "../hooks/application/useApplications";
 
 import OverviewCards from "../components/overview/OverviewCards";
 import OverviewStats from "../components/overview/OverviewStats";
 
 const Dashboard: React.FC = () => {
+  const { user } = useAuth();
+
+  const { data: applications, isLoading } = useApplications(user.$id);
+
   return (
     <Container maxW="container.xl">
       <Flex alignItems="center" mt="5" gap="2">
@@ -20,15 +19,6 @@ const Dashboard: React.FC = () => {
           Overview
         </Text>
         <Spacer />
-        <Select
-          placeholder="Filter"
-          size={{ base: "xs", sm: "sm", md: "md" }}
-          w={100}
-        >
-          <option value="option1">Option 1</option>
-          <option value="option2">Option 2</option>
-          <option value="option3">Option 3</option>
-        </Select>
         <Button
           as={ReactLink}
           colorScheme="nigga"
@@ -38,8 +28,14 @@ const Dashboard: React.FC = () => {
           Add New
         </Button>
       </Flex>
-      <OverviewCards />
-      <OverviewStats />
+      {applications?.total !== 0 && !isLoading ? (
+        <>
+          <OverviewCards />
+          <OverviewStats />{" "}
+        </>
+      ) : (
+        <Text>You don't have any applications for now.</Text>
+      )}
     </Container>
   );
 };
