@@ -12,10 +12,10 @@ interface ApplicationProp {
 }
 
 interface ApplicationType {
-    name: string;
-    info: string;
-    position_applied: string;
-    status: string;
+    name?: string;
+    info?: string;
+    position_applied?: string;
+    status?: string;
 }
 
 const updateApplication = async (application: ApplicationProp) => {
