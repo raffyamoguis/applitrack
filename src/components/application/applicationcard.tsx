@@ -45,9 +45,6 @@ const applicationcard: React.FC<Props> = ({ application, onDelete }) => {
 
   // Function to handle the onChange event
   const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    // setSelectedValue(event.target.value);
-    // You can perform additional actions here based on the selected value
-    console.log("Selected value:", event.target.value);
     useUpdateApplicationMutation.mutate(
       {
         documentID: application.$id,
@@ -94,6 +91,8 @@ const applicationcard: React.FC<Props> = ({ application, onDelete }) => {
             <option value="Technical Interview">Technical Interview</option>
             <option value="Final Interview">Final Interview</option>
             <option value="Assesment">Assesment</option>
+            <option value="Assesment">Not Selected</option>
+            <option value="Assesment">No Update</option>
           </Select>
         </Flex>
         <HStack spacing="10px" align="center" justify="start" mt="5">
