@@ -1,5 +1,6 @@
 import React from "react";
 import { Link as ReactLink } from "react-router-dom";
+import { Query } from "appwrite";
 import { Text, Container, Flex, Button, Spacer } from "@chakra-ui/react";
 import { useAuth } from "../utils/AuthContext";
 import useApplications from "../hooks/application/useApplications";
@@ -10,7 +11,10 @@ import OverviewStats from "../components/overview/OverviewStats";
 const Dashboard: React.FC = () => {
   const { user } = useAuth();
 
-  const { data: applications, isLoading } = useApplications(user.$id);
+  const { data: applications, isLoading } = useApplications([
+    Query.equal("user_id", user?.$id),
+    Query.orderAsc("$createdAt"),
+  ]);
 
   return (
     <Container maxW="container.xl">
