@@ -1,6 +1,7 @@
 import React, { createContext, useState, useEffect, useContext } from "react";
 import { useToast } from "@chakra-ui/react";
 import { ID } from "appwrite";
+import { useQueryClient } from "react-query";
 import { useNavigate } from "react-router-dom";
 import { account } from "../appwriteConfig";
 
@@ -28,6 +29,7 @@ interface Props {
 
 export const AuthProvider: React.FC<Props> = ({ children }) => {
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
   const toast = useToast();
   const [loading, setLoading] = useState<boolean>(true);
   const [user, setUser] = useState<any>(null);
@@ -103,6 +105,7 @@ export const AuthProvider: React.FC<Props> = ({ children }) => {
   const handleUserLogout = async () => {
     await account.deleteSession("current");
     setUser(null);
+    queryClient.clear();
   };
 
   const contextData = {
