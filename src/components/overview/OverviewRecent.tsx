@@ -48,7 +48,7 @@ const OverviewRecent: React.FC<Props> = ({ applications }) => {
           {`You made ${recentApplications.length} applications this day`}
         </Text>
 
-        {recentApplications.map((item, key) => (
+        {recentApplications?.map((item, key) => (
           <Flex alignItems="center" gap="6" marginTop="4" key={key}>
             <Image
               boxSize="32px"

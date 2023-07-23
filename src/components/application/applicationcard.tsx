@@ -91,8 +91,8 @@ const applicationcard: React.FC<Props> = ({ application, onDelete }) => {
             <option value="Technical Interview">Technical Interview</option>
             <option value="Final Interview">Final Interview</option>
             <option value="Assesment">Assesment</option>
-            <option value="Assesment">Not Selected</option>
-            <option value="Assesment">No Update</option>
+            <option value="Not Selected">Not Selected</option>
+            <option value="No Update">No Update</option>
           </Select>
         </Flex>
         <HStack spacing="10px" align="center" justify="start" mt="5">

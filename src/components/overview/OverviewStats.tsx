@@ -22,7 +22,7 @@ const OverviewStats: React.FC<Props> = ({ applications }) => {
   return (
     <SimpleGrid columns={[1, 2]} spacing={4} marginTop={10}>
       <OverviewRecent applications={applications} />
-      <OverviewTotal />
+      <OverviewTotal applications={applications} />
     </SimpleGrid>
   );
 };

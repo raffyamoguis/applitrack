@@ -9,3 +9,7 @@ export function formatDate(dateString: string) {
 
   return formattedDate;
 }
+
+export function getPercentage(num: any, total: number) {
+  return (num / total) * 100;
+}
