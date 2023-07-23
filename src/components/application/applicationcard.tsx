@@ -84,6 +84,7 @@ const applicationcard: React.FC<Props> = ({ application, onDelete }) => {
           <Select
             size="sm"
             w="28"
+            placeholder="Status"
             value={application.status}
             onChange={handleSelectChange}
           >
