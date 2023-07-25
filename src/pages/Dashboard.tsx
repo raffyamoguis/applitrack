@@ -11,10 +11,10 @@ import OverviewStats from "../components/overview/OverviewStats";
 const Dashboard: React.FC = () => {
   const { user } = useAuth();
 
-  const { data: applications, isLoading } = useApplications([
-    Query.equal("user_id", user?.$id),
-    Query.orderAsc("$createdAt"),
-  ]);
+  // const { data: applications, isLoading } = useApplications([
+  //   Query.equal("user_id", user?.$id),
+  //   // Query.orderAsc("$createdAt"),
+  // ]);
 
   return (
     <Container maxW="container.xl">
@@ -32,14 +32,14 @@ const Dashboard: React.FC = () => {
           Add New
         </Button>
       </Flex>
-      {applications?.total !== 0 && !isLoading ? (
+      {/* {applications?.total !== 0 && !isLoading ? (
         <>
           <OverviewCards />
           <OverviewStats applications={applications.documents} />{" "}
         </>
       ) : (
         <Text>You don't have any applications for now.</Text>
-      )}
+      )} */}
     </Container>
   );
 };
