@@ -1,3 +1,5 @@
+import { useToast } from "@chakra-ui/react";
+
 export function formatDate(dateString: string) {
     const dateObj = new Date(dateString);
 
@@ -12,4 +14,8 @@ export function formatDate(dateString: string) {
 
 export function getPercentage(num: any, total: number) {
   return (num / total) * 100;
+}
+
+export function renderMoreButton(isLoading: boolean, isFetched:boolean, total: number, offset: number) {
+  return isLoading && isFetched && total !== offset;
 }
