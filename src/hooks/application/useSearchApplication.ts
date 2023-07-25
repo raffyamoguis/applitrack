@@ -26,7 +26,7 @@ const searchApplications = async (query: string, user_id: string) => {
 };
 
 const useSearchApplication = (query: string, user_id:string) => {
-  return useQuery(['applications_search', query],() => searchApplications(query, user_id));
+  return useQuery(['applications', query],() => searchApplications(query, user_id));
 };
 
 export default useSearchApplication;

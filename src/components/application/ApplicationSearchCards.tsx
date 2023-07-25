@@ -23,8 +23,6 @@ const ApplicationSearchCards: React.FC<Props> = ({
 }) => {
   const deleteItemApplication = useDeleteApplication();
 
-  console.log(applications);
-
   const handleDeleteApplication = async (itemId: string) => {
     deleteItemApplication.mutate(itemId);
   };
