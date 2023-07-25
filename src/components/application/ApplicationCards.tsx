@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { SimpleGrid, SkeletonText } from "@chakra-ui/react";
+import { SimpleGrid, SkeletonText, Center } from "@chakra-ui/react";
 import ApplicationCard from "./applicationcard";
+import MoreButton from "../MoreButton";
 import useApplications from "../../hooks/application/useApplications";
 import useDeleteApplication from "../../hooks/application/useDeleteApplication";
 import { useAuth } from "../../utils/AuthContext";
@@ -39,13 +40,17 @@ const ApplicationCards: React.FC<ApplicationProps> = ({
 
   const initialQuery = [
     Query.equal("user_id", user?.$id),
-    Query.orderAsc("$createdAt"),
+    Query.orderDesc("$createdAt"),
+    Query.limit(12),
   ];
   const [query, setQuery] = useState<any>(initialQuery);
+  const [offset, setOffset] = useState<number>(12);
+
   // Fetch applications
   const {
     data: applications,
     isLoading,
+    isFetching,
     isError,
     error,
     isSuccess,
@@ -64,9 +69,10 @@ const ApplicationCards: React.FC<ApplicationProps> = ({
   useEffect(() => {
     const newQuery = [
       Query.equal("user_id", user?.$id),
-      options.sort === "asc"
-        ? Query.orderAsc("$createdAt")
-        : Query.orderDesc("$createdAt"),
+      options.sort === "desc"
+        ? Query.orderDesc("$createdAt")
+        : Query.orderAsc("$createdAt"),
+      Query.limit(offset),
     ];
 
     // Add filter condition based on the options.filter value
@@ -76,15 +82,19 @@ const ApplicationCards: React.FC<ApplicationProps> = ({
 
     // Update the query state
     setQuery(newQuery);
-  }, [user?.$id, options.filter, options.sort]);
+  }, [user?.$id, options.filter, options.sort, offset]);
 
   useEffect(() => {
     handleRefetch();
-    console.log("Error here..");
   }, [options.filter, options.sort]);
 
   const handleDeleteApplication = async (itemId: string) => {
     deleteItemApplication.mutate(itemId);
+  };
+
+  const handleMoreButton = (offset: number) => {
+    setOffset(offset);
+    handleRefetch();
   };
 
   if (isSuccess) {
@@ -95,27 +105,39 @@ const ApplicationCards: React.FC<ApplicationProps> = ({
     console.log(String(error));
   }
   return (
-    <SimpleGrid columns={[1, 2, 3, 4]} spacing={4} marginTop={4}>
-      {isLoading
-        ? Array.from({ length: 4 }).map((_, index) => (
-            <SkeletonText
-              key={index}
-              p="2"
-              mt="10"
-              noOfLines={4}
-              spacing="4"
-              skeletonHeight="2"
-              borderRadius="xl"
-            />
-          ))
-        : applications?.documents.map((application: applicationTypes) => (
-            <ApplicationCard
-              key={application.$id}
-              application={application}
-              onDelete={handleDeleteApplication}
-            />
-          ))}
-    </SimpleGrid>
+    <>
+      <SimpleGrid columns={[1, 2, 3, 4]} spacing={4} marginTop={4}>
+        {isLoading
+          ? Array.from({ length: 4 }).map((_, index) => (
+              <SkeletonText
+                key={index}
+                p="2"
+                mt="10"
+                noOfLines={4}
+                spacing="4"
+                skeletonHeight="2"
+                borderRadius="xl"
+              />
+            ))
+          : applications?.documents.map((application: applicationTypes) => (
+              <ApplicationCard
+                key={application.$id}
+                application={application}
+                onDelete={handleDeleteApplication}
+              />
+            ))}
+      </SimpleGrid>
+      <Center mt="8">
+        {isSuccess ? (
+          <MoreButton
+            isLoading={isFetching}
+            sendOffsetNumber={handleMoreButton}
+            total={applications?.total}
+            offset={offset}
+          />
+        ) : null}
+      </Center>
+    </>
   );
 };
 

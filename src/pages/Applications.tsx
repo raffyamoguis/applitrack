@@ -7,10 +7,15 @@ import {
   Select,
   Button,
   Spacer,
+  InputGroup,
+  Input,
+  InputLeftElement,
 } from "@chakra-ui/react";
+import { SearchIcon } from "@chakra-ui/icons";
 
 // Componetns
 import ApplicationCards from "../components/application/ApplicationCards";
+import ApplicationSearchCards from "../components/application/ApplicationSearchCards";
 
 type Options = {
   sort: string;
@@ -19,7 +24,8 @@ type Options = {
 
 const Applications: React.FC = () => {
   const [totalApplications, setTotalApplications] = useState<number>(0);
-  const [options, setOptions] = useState<Options>({ sort: "asc", filter: "" });
+  const [options, setOptions] = useState<Options>({ sort: "desc", filter: "" });
+  // const [search, setSearch] = useState<string>("");
 
   const handleTotalApplications = (total: number) => {
     // Update parent component state or perform actions with the received data
@@ -33,6 +39,10 @@ const Applications: React.FC = () => {
   const handleFilterOnChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setOptions({ ...options, filter: e.target.value });
   };
+
+  // React.useEffect(() => {
+  //   console.log(search);
+  // }, [search]);
 
   return (
     <Container maxW="container.xl">
@@ -82,6 +92,27 @@ const Applications: React.FC = () => {
           Add New
         </Button>
       </Flex>
+      {/* <InputGroup mt="4">
+        <InputLeftElement pointerEvents="none">
+          <SearchIcon color="gray.300" />
+        </InputLeftElement>
+        <Input
+          type="text"
+          placeholder="Search"
+          focusBorderColor="#2f2f31"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+        />
+      </InputGroup> */}
+      {/* {search ? (
+        <ApplicationSearchCards search={search} />
+      ) : (
+        <ApplicationCards
+          sendTotalApplications={handleTotalApplications}
+          options={options}
+        />
+      )} */}
+
       <ApplicationCards
         sendTotalApplications={handleTotalApplications}
         options={options}
