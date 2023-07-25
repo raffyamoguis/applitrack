@@ -7,6 +7,7 @@ import useDeleteApplication from "../../hooks/application/useDeleteApplication";
 import { useAuth } from "../../utils/AuthContext";
 import { Query } from "appwrite";
 import { useQueryClient } from "react-query";
+import { renderMoreButton } from "../../helpers/util";
 // Helper
 
 type applicationTypes = {
@@ -51,6 +52,7 @@ const ApplicationCards: React.FC<ApplicationProps> = ({
     data: applications,
     isLoading,
     isFetching,
+    isFetched,
     isError,
     error,
     isSuccess,
@@ -87,6 +89,10 @@ const ApplicationCards: React.FC<ApplicationProps> = ({
   useEffect(() => {
     handleRefetch();
   }, [options.filter, options.sort]);
+
+  useEffect(() => {
+    setOffset(12);
+  }, [options.filter]);
 
   const handleDeleteApplication = async (itemId: string) => {
     deleteItemApplication.mutate(itemId);
@@ -128,7 +134,7 @@ const ApplicationCards: React.FC<ApplicationProps> = ({
             ))}
       </SimpleGrid>
       <Center mt="8">
-        {isSuccess ? (
+        {renderMoreButton(isSuccess, isFetched, applications?.total, offset) ? (
           <MoreButton
             isLoading={isFetching}
             sendOffsetNumber={handleMoreButton}

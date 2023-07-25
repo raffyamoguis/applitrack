@@ -16,6 +16,8 @@ import { SearchIcon } from "@chakra-ui/icons";
 // Componetns
 import ApplicationCards from "../components/application/ApplicationCards";
 import ApplicationSearchCards from "../components/application/ApplicationSearchCards";
+import useSearchApplication from "../hooks/application/useSearchApplication";
+import { useAuth } from "../utils/AuthContext";
 
 type Options = {
   sort: string;
@@ -23,9 +25,15 @@ type Options = {
 };
 
 const Applications: React.FC = () => {
+  const { user } = useAuth();
   const [totalApplications, setTotalApplications] = useState<number>(0);
   const [options, setOptions] = useState<Options>({ sort: "desc", filter: "" });
-  // const [search, setSearch] = useState<string>("");
+  const [search, setSearch] = useState<string>("");
+
+  const { data: applications, isLoading } = useSearchApplication(
+    search,
+    user?.$id
+  );
 
   const handleTotalApplications = (total: number) => {
     // Update parent component state or perform actions with the received data
@@ -39,10 +47,6 @@ const Applications: React.FC = () => {
   const handleFilterOnChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setOptions({ ...options, filter: e.target.value });
   };
-
-  // React.useEffect(() => {
-  //   console.log(search);
-  // }, [search]);
 
   return (
     <Container maxW="container.xl">
@@ -65,6 +69,7 @@ const Applications: React.FC = () => {
           w={100}
           value={options.sort}
           onChange={handleSortOnChange}
+          disabled={search !== ""}
         >
           <option value="asc">Ascending</option>
           <option value="desc">Descending</option>
@@ -75,6 +80,7 @@ const Applications: React.FC = () => {
           w={100}
           value={options.filter}
           onChange={handleFilterOnChange}
+          disabled={search !== ""}
         >
           <option value="Assesment">Assesment</option>
           <option value="Initial Interview">Initial</option>
@@ -92,7 +98,7 @@ const Applications: React.FC = () => {
           Add New
         </Button>
       </Flex>
-      {/* <InputGroup mt="4">
+      <InputGroup mt="4">
         <InputLeftElement pointerEvents="none">
           <SearchIcon color="gray.300" />
         </InputLeftElement>
@@ -103,20 +109,18 @@ const Applications: React.FC = () => {
           value={search}
           onChange={(e) => setSearch(e.target.value)}
         />
-      </InputGroup> */}
-      {/* {search ? (
-        <ApplicationSearchCards search={search} />
+      </InputGroup>
+      {search ? (
+        <ApplicationSearchCards
+          isLoading={isLoading}
+          applications={applications?.documents}
+        />
       ) : (
         <ApplicationCards
           sendTotalApplications={handleTotalApplications}
           options={options}
         />
-      )} */}
-
-      <ApplicationCards
-        sendTotalApplications={handleTotalApplications}
-        options={options}
-      />
+      )}
     </Container>
   );
 };

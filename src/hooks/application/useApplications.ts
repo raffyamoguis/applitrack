@@ -7,7 +7,6 @@ import {
 
 
 const fetchApplications = async (queries?: any) => {
-  console.log(queries);
     try {
       // Call the Appwrite API endpoint to fetch projects
       const response = await databases.listDocuments(

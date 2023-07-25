@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Button } from "@chakra-ui/react";
 
 interface Props {
@@ -15,11 +15,6 @@ const MoreButton: React.FC<Props> = ({
   isLoading,
 }) => {
   if (total <= 12) {
-    return null;
-  }
-
-  if (total === offset) {
-    console.log("No new data.");
     return null;
   }
 
