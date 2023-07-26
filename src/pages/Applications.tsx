@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { Link as ReactLink } from "react-router-dom";
 import {
   Text,
   Container,
@@ -10,12 +9,14 @@ import {
   InputGroup,
   Input,
   InputLeftElement,
+  useDisclosure,
 } from "@chakra-ui/react";
 import { SearchIcon } from "@chakra-ui/icons";
 
 // Componetns
 import ApplicationCards from "../components/application/ApplicationCards";
 import ApplicationSearchCards from "../components/application/ApplicationSearchCards";
+import ApplicationFormModal from "./form/ApplicationFormModal";
 import useSearchApplication from "../hooks/application/useSearchApplication";
 import { useAuth } from "../utils/AuthContext";
 
@@ -29,6 +30,7 @@ const Applications: React.FC = () => {
   const [totalApplications, setTotalApplications] = useState<number>(0);
   const [options, setOptions] = useState<Options>({ sort: "desc", filter: "" });
   const [search, setSearch] = useState<string>("");
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   const { data: applications, isLoading } = useSearchApplication(
     search,
@@ -90,13 +92,14 @@ const Applications: React.FC = () => {
           <option value="No Update">No Update</option>
         </Select>
         <Button
-          as={ReactLink}
-          to="/applications/new"
           colorScheme="nigga"
           size={{ base: "xs", sm: "sm", md: "md" }}
+          onClick={onOpen}
         >
           Add New
         </Button>
+
+        <ApplicationFormModal isOpen={isOpen} onClose={onClose} />
       </Flex>
       <InputGroup mt="4">
         <InputLeftElement pointerEvents="none">
