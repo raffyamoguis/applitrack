@@ -16,7 +16,7 @@ import { SearchIcon } from "@chakra-ui/icons";
 // Componetns
 import ApplicationCards from "../components/application/ApplicationCards";
 import ApplicationSearchCards from "../components/application/ApplicationSearchCards";
-import ApplicationFormModal from "./form/ApplicationFormModal";
+import ApplicationFormModal from "./form/ApplicationModal";
 import useSearchApplication from "../hooks/application/useSearchApplication";
 import { useAuth } from "../utils/AuthContext";
 

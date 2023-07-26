@@ -10,11 +10,12 @@ import {
   HStack,
   Select,
   useToast,
+  useDisclosure,
 } from "@chakra-ui/react";
 import { DeleteIcon, EditIcon } from "@chakra-ui/icons";
 import { formatDate } from "../../helpers/util";
-import { useNavigate } from "react-router-dom";
 import useUpdateApplication from "../../hooks/application/useUpdateApplication";
+import UpdateApplicationModal from "../../pages/form/UpdateApplicationModal";
 
 interface Application {
   $id: string;
@@ -31,14 +32,11 @@ interface Props {
 }
 
 const applicationcard: React.FC<Props> = ({ application, onDelete }) => {
-  const navigate = useNavigate();
   const queryClient = useQueryClient();
   const useUpdateApplicationMutation = useUpdateApplication();
   const toast = useToast();
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const handleEdit = () => {
-    navigate(`/applications/${application.$id}`);
-  };
   const handleDelete = () => {
     onDelete(application.$id);
   };
@@ -97,10 +95,11 @@ const applicationcard: React.FC<Props> = ({ application, onDelete }) => {
           </Select>
         </Flex>
         <HStack spacing="10px" align="center" justify="start" mt="5">
-          <EditIcon
-            color="gray"
-            _hover={{ color: "black" }}
-            onClick={handleEdit}
+          <EditIcon color="gray" _hover={{ color: "black" }} onClick={onOpen} />
+          <UpdateApplicationModal
+            isOpen={isOpen}
+            onClose={onClose}
+            id={application?.$id}
           />
           <DeleteIcon
             color="gray"
