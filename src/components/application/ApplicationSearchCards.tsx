@@ -5,6 +5,9 @@ import useDeleteApplication from "../../hooks/application/useDeleteApplication";
 
 interface Props {
   isLoading: boolean;
+  isSuccess: boolean;
+  sendTotalApplications: (total: number) => void;
+  total: number;
   applications: applicationTypes[];
 }
 
@@ -19,6 +22,9 @@ type applicationTypes = {
 
 const ApplicationSearchCards: React.FC<Props> = ({
   isLoading,
+  isSuccess,
+  sendTotalApplications,
+  total,
   applications,
 }) => {
   const deleteItemApplication = useDeleteApplication();
@@ -26,6 +32,10 @@ const ApplicationSearchCards: React.FC<Props> = ({
   const handleDeleteApplication = async (itemId: string) => {
     deleteItemApplication.mutate(itemId);
   };
+
+  if (isSuccess) {
+    sendTotalApplications(total);
+  }
 
   const noResult = applications?.length === 0;
 

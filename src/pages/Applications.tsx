@@ -32,10 +32,11 @@ const Applications: React.FC = () => {
   const [search, setSearch] = useState<string>("");
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const { data: applications, isLoading } = useSearchApplication(
-    search,
-    user?.$id
-  );
+  const {
+    data: applications,
+    isLoading,
+    isSuccess,
+  } = useSearchApplication(search, user?.$id);
 
   const handleTotalApplications = (total: number) => {
     // Update parent component state or perform actions with the received data
@@ -116,6 +117,9 @@ const Applications: React.FC = () => {
       {search ? (
         <ApplicationSearchCards
           isLoading={isLoading}
+          isSuccess={isSuccess}
+          sendTotalApplications={handleTotalApplications}
+          total={applications?.total}
           applications={applications?.documents}
         />
       ) : (
