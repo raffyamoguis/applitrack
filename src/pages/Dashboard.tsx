@@ -16,7 +16,10 @@ const Dashboard: React.FC = () => {
     data: applicationCount,
     isSuccess,
     isLoading,
-  } = useApplicationCount([Query.equal("user_id", user?.$id)]);
+  } = useApplicationCount(
+    [Query.equal("user_id", user?.$id)],
+    "applicationCount"
+  );
 
   const showOverview = applicationCount !== 0 && isSuccess;
 
