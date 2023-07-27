@@ -1,9 +1,10 @@
 import React, { createContext, useState, useEffect, useContext } from "react";
-import { useToast } from "@chakra-ui/react";
+import { Box, AbsoluteCenter, useToast } from "@chakra-ui/react";
 import { ID } from "appwrite";
 import { useQueryClient } from "react-query";
 import { useNavigate } from "react-router-dom";
 import { account } from "../appwriteConfig";
+import Ripple from "../components/ripple/Ripple";
 
 interface AuthContextData {
   user: any; // Replace 'any' with the actual type of your user object
@@ -123,7 +124,15 @@ export const AuthProvider: React.FC<Props> = ({ children }) => {
 
   return (
     <AuthContext.Provider value={contextData}>
-      {loading ? <p>Loading...</p> : children}
+      {loading ? (
+        <Box position="relative" h="100vh">
+          <AbsoluteCenter p="4" axis="both">
+            <Ripple />
+          </AbsoluteCenter>
+        </Box>
+      ) : (
+        children
+      )}
     </AuthContext.Provider>
   );
 };
