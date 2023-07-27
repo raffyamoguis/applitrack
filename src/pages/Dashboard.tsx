@@ -1,20 +1,24 @@
 import React from "react";
-import { Link as ReactLink } from "react-router-dom";
 import { Query } from "appwrite";
+import { Link as ReactLink } from "react-router-dom";
 import { Text, Container, Flex, Button, Spacer } from "@chakra-ui/react";
-import { useAuth } from "../utils/AuthContext";
-import useApplications from "../hooks/application/useApplications";
 
-import OverviewCards from "../components/overview/OverviewCards";
-import OverviewStats from "../components/overview/OverviewStats";
+import ShowOverview from "../components/overview/ShowOverview";
+
+// Hooks
+import { useAuth } from "../utils/AuthContext";
+import useApplicationCount from "../hooks/overview/useApplicationCount";
 
 const Dashboard: React.FC = () => {
   const { user } = useAuth();
 
-  // const { data: applications, isLoading } = useApplications([
-  //   Query.equal("user_id", user?.$id),
-  //   // Query.orderAsc("$createdAt"),
-  // ]);
+  const {
+    data: applicationCount,
+    isSuccess,
+    isLoading,
+  } = useApplicationCount([Query.equal("user_id", user?.$id)]);
+
+  const showOverview = applicationCount !== 0 && isSuccess;
 
   return (
     <Container maxW="container.xl">
@@ -32,14 +36,7 @@ const Dashboard: React.FC = () => {
           Add New
         </Button>
       </Flex>
-      {/* {applications?.total !== 0 && !isLoading ? (
-        <>
-          <OverviewCards />
-          <OverviewStats applications={applications.documents} />{" "}
-        </>
-      ) : (
-        <Text>You don't have any applications for now.</Text>
-      )} */}
+      <ShowOverview isLoading={isLoading} showOverview={showOverview} />
     </Container>
   );
 };
