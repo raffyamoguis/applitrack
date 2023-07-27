@@ -62,7 +62,7 @@ const ApplicationForm: React.FC = () => {
             duration: 5000,
             isClosable: true,
           });
-          reset({});
+          reset();
         },
       }
     );
