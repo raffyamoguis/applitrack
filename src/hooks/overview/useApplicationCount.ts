@@ -5,8 +5,7 @@ import {
   databases,
 } from "../../appwriteConfig";
 
-
-const fetchApplicationCount = async (queries?: any) => {
+const fetchApplicationCount = async (queries? : any) => {
     try {
       // Call the Appwrite API endpoint to fetch projects
       const response = await databases.listDocuments(
@@ -21,8 +20,8 @@ const fetchApplicationCount = async (queries?: any) => {
   
 };
 
-const useApplicationCount = (queries: any) => {
-  return useQuery('applicationCount',() => fetchApplicationCount(queries));
+const useApplicationCount = (queries: any, key: string) => {
+  return useQuery(key, () => fetchApplicationCount(queries));
 };
 
 export default useApplicationCount;
