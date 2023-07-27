@@ -1,15 +1,22 @@
-import React, { useEffect, useState } from "react";
-
+import React from "react";
+import { Query } from "appwrite";
 import {
   Card,
   CardBody,
   Text,
-  Flex,
-  Spacer,
-  Badge,
-  VStack,
-  Image,
+  TableContainer,
+  Table,
+  Thead,
+  Tr,
+  Th,
+  Tbody,
+  Td,
+  SkeletonText,
 } from "@chakra-ui/react";
+
+// Hooks
+import useApplicationByDay from "../../hooks/overview/useApplicationByDay";
+import { useAuth } from "../../utils/AuthContext";
 
 interface ApplicationProps {
   $id: string;
@@ -20,24 +27,33 @@ interface ApplicationProps {
   status: string;
 }
 
-interface Props {
-  applications: ApplicationProps[];
-}
+const OverviewRecent: React.FC = () => {
+  const { user } = useAuth();
 
-const OverviewRecent: React.FC<Props> = ({ applications }) => {
-  const [recentApplications, setRecentApplications] = useState<
-    ApplicationProps[]
-  >([]);
+  console.log(new Date().toISOString().split("T")[0]); // Output: 2023-07-22T07:26:51.151+00:00
 
-  useEffect(() => {
-    const currentDate = new Date().toISOString().split("T")[0];
+  const dateStart =
+    new Date().toISOString().split("T")[0] + "T00:00:00.000+00:00";
+  const dateEnd =
+    new Date().toISOString().split("T")[0] + "T23:59:59.999+00:00";
 
-    const filteredApplications = applications.filter(
-      (application) => application.$createdAt.split("T")[0] === currentDate
-    );
+  const {
+    data: applicationToday,
+    isError,
+    isSuccess,
+    isLoading,
+    error,
+  } = useApplicationByDay(
+    [
+      Query.equal("user_id", user?.$id),
+      Query.greaterThanEqual("$createdAt", dateStart),
+      Query.lessThanEqual("$createdAt", dateEnd),
+    ],
+    "applicationToday"
+  );
 
-    setRecentApplications(filteredApplications);
-  }, [applications]);
+  if (isError) console.log(error);
+  if (isSuccess) console.log(applicationToday);
   return (
     <Card borderRadius="xl" variant="outline" shadow="sm">
       <CardBody>
@@ -45,29 +61,35 @@ const OverviewRecent: React.FC<Props> = ({ applications }) => {
           Recent Application
         </Text>
         <Text fontSize="sm" marginTop="1" marginBottom="10">
-          {`You made ${recentApplications.length} applications this day`}
+          {`You made ${applicationToday?.total} applications this day`}
         </Text>
 
-        {recentApplications?.map((item, key) => (
-          <Flex alignItems="center" gap="6" marginTop="4" key={key}>
-            <Image
-              boxSize="32px"
-              objectFit="cover"
-              alt="Company Icon"
-              src="https://img.icons8.com/serif/32/575758/experimental-company-serif.png"
-            />
-            <VStack spacing="0" align="start">
-              <Text fontSize="xs" as="b">
-                {item.name}
-              </Text>
-              <Text fontSize="xs">{item.info}</Text>
-            </VStack>
-            <Spacer />
-            <Badge variant="solid" colorScheme="nigga" borderRadius="sm">
-              {item.status}
-            </Badge>
-          </Flex>
-        ))}
+        {isLoading ? (
+          <SkeletonText mt="4" noOfLines={3} spacing="5" skeletonHeight="2" />
+        ) : (
+          <TableContainer>
+            <Table size="sm">
+              <Thead>
+                <Tr>
+                  <Th>Company</Th>
+                  <Th>Position</Th>
+                  <Th>Status</Th>
+                </Tr>
+              </Thead>
+              <Tbody>
+                {applicationToday?.documents.map(
+                  (item: ApplicationProps, key: number) => (
+                    <Tr key={key}>
+                      <Td>{item.name}</Td>
+                      <Td>{item.position_applied}</Td>
+                      <Td fontWeight={500}>{item.status}</Td>
+                    </Tr>
+                  )
+                )}
+              </Tbody>
+            </Table>
+          </TableContainer>
+        )}
       </CardBody>
     </Card>
   );
