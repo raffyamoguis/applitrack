@@ -106,13 +106,13 @@ const OverviewTotal: React.FC = () => {
         </Text>
         <Skeleton isLoaded={!showBarChart}>
           <ResponsiveContainer width="100%" aspect={4.0 / 3.0}>
-            <BarChart data={dataBar}>
+            <BarChart margin={{ left: -40 }} data={dataBar}>
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis dataKey="name" tick={{ fontSize: 13 }} />
               <YAxis tick={{ fontSize: 13 }} />
               <Tooltip />
               <Legend />
-              <Bar barSize={35} dataKey="total" fill="#575758" />
+              <Bar barSize={30} dataKey="total" fill="#575758" />
             </BarChart>
           </ResponsiveContainer>
         </Skeleton>

@@ -7,7 +7,7 @@ import OverviewTotal from "./OverviewTotal";
 
 const OverviewStats: React.FC = () => {
   return (
-    <SimpleGrid columns={[1, 2]} spacing={4} marginTop={10}>
+    <SimpleGrid columns={[1, null, 2]} spacing={4} marginTop={10}>
       <OverviewRecent />
       <OverviewTotal />
     </SimpleGrid>

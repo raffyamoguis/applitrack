@@ -28,6 +28,7 @@ const OverviewRecent: React.FC = () => {
       Query.equal("user_id", user?.$id),
       Query.greaterThanEqual("$createdAt", dateStart),
       Query.lessThanEqual("$createdAt", dateEnd),
+      Query.orderDesc("$createdAt"),
     ],
     "applicationToday"
   );
