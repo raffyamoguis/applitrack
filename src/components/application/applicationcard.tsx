@@ -52,8 +52,7 @@ const applicationcard: React.FC<Props> = ({ application, onDelete }) => {
         onSuccess: () => {
           queryClient.invalidateQueries("applications");
           toast({
-            title: "Application updated.",
-            description: "Status successfully updated",
+            title: "Application status changed.",
             status: "success",
             position: "bottom-right",
             variant: "left-accent",
