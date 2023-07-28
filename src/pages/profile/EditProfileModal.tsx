@@ -10,12 +10,12 @@ import {
   Divider,
   Avatar,
   Center,
-  FormControl,
-  FormErrorMessage,
+  // FormControl,
+  // FormErrorMessage,
   Input,
-  Box,
-  VStack,
-  Flex,
+  // Box,
+  // VStack,
+  // Flex,
 } from "@chakra-ui/react";
 import { useAuth } from "../../utils/AuthContext";
 
