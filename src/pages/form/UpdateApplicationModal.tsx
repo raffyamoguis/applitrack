@@ -69,7 +69,6 @@ const UpdateApplicationModal: React.FC<MyComponentProps> = ({
           queryClient.invalidateQueries("applications");
           toast({
             title: "Application updated.",
-            description: "We've successfully updated your application.",
             status: "success",
             position: "bottom-right",
             variant: "left-accent",
@@ -82,6 +81,7 @@ const UpdateApplicationModal: React.FC<MyComponentProps> = ({
   };
   return (
     <Modal
+      size={{ base: "xs", sm: "sm", md: "md" }}
       initialFocusRef={initialRef}
       finalFocusRef={finalRef}
       isOpen={isOpen}
@@ -118,6 +118,7 @@ const UpdateApplicationModal: React.FC<MyComponentProps> = ({
                       mb="4"
                       type="text"
                       placeholder="Name"
+                      size={{ base: "sm", md: "md" }}
                       defaultValue={data?.name}
                       {...register("name", {
                         required: "Name is required",
@@ -131,6 +132,7 @@ const UpdateApplicationModal: React.FC<MyComponentProps> = ({
                     mb="4"
                     type="text"
                     placeholder="Info"
+                    size={{ base: "sm", md: "md" }}
                     defaultValue={data?.info}
                     {...register("info")}
                   />
@@ -139,6 +141,7 @@ const UpdateApplicationModal: React.FC<MyComponentProps> = ({
                       mb="4"
                       type="text"
                       placeholder="Position"
+                      size={{ base: "sm", md: "md" }}
                       defaultValue={data?.position_applied}
                       {...register("position_applied", {
                         required: "Position is required",
@@ -154,6 +157,7 @@ const UpdateApplicationModal: React.FC<MyComponentProps> = ({
                       mb="4"
                       type="text"
                       placeholder="Status"
+                      size={{ base: "sm", md: "md" }}
                       defaultValue={data?.status}
                       {...register("status", {
                         required: "Status is required",
@@ -166,6 +170,7 @@ const UpdateApplicationModal: React.FC<MyComponentProps> = ({
                   <Button
                     w="100%"
                     colorScheme="nigga"
+                    size={{ base: "sm", md: "md" }}
                     mb="5"
                     isLoading={useUpdateApplicationMutation.isLoading}
                     loadingText="Updating"

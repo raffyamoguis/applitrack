@@ -65,7 +65,6 @@ const ApplicationFormModal: React.FC<MyComponentProps> = ({
           queryClient.invalidateQueries("applications");
           toast({
             title: "Application created.",
-            description: "We've created your application for you.",
             status: "success",
             position: "bottom-right",
             variant: "left-accent",
@@ -84,6 +83,7 @@ const ApplicationFormModal: React.FC<MyComponentProps> = ({
       finalFocusRef={finalRef}
       isOpen={isOpen}
       onClose={onClose}
+      size={{ base: "xs", sm: "sm", md: "md" }}
     >
       <ModalOverlay />
       <ModalContent>
@@ -96,7 +96,7 @@ const ApplicationFormModal: React.FC<MyComponentProps> = ({
         <ModalCloseButton />
         <ModalBody pb={6}>
           <Box m="auto">
-            <Text fontSize="lg" fontWeight="500">
+            <Text fontSize="lg" fontWeight="500" mb="2">
               Company
             </Text>
 
@@ -106,6 +106,7 @@ const ApplicationFormModal: React.FC<MyComponentProps> = ({
                   mb="4"
                   type="text"
                   placeholder="Name"
+                  size={{ base: "sm", md: "md" }}
                   {...register("name", {
                     required: "Name is required",
                   })}
@@ -118,6 +119,7 @@ const ApplicationFormModal: React.FC<MyComponentProps> = ({
                 mb="4"
                 type="text"
                 placeholder="Info"
+                size={{ base: "sm", md: "md" }}
                 {...register("info")}
               />
               <FormControl isInvalid={!!errors.position_applied?.message}>
@@ -125,6 +127,7 @@ const ApplicationFormModal: React.FC<MyComponentProps> = ({
                   mb="4"
                   type="text"
                   placeholder="Position"
+                  size={{ base: "sm", md: "md" }}
                   {...register("position_applied", {
                     required: "Position is required",
                   })}
@@ -139,6 +142,7 @@ const ApplicationFormModal: React.FC<MyComponentProps> = ({
                   type="text"
                   placeholder="Status"
                   defaultValue="Applied"
+                  size={{ base: "sm", md: "md" }}
                   {...register("status", {
                     required: "Status is required",
                   })}
@@ -151,6 +155,7 @@ const ApplicationFormModal: React.FC<MyComponentProps> = ({
                 w="100%"
                 mb="4"
                 colorScheme="nigga"
+                size={{ base: "sm", md: "md" }}
                 isLoading={useAddApplicationMutation.isLoading}
                 loadingText="Creating"
                 type="submit"
