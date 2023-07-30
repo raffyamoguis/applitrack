@@ -16,6 +16,8 @@ import {
   FormErrorMessage,
 } from "@chakra-ui/react";
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
+
+// Hooks
 import { useAuth } from "../../utils/AuthContext";
 import { useForm } from "react-hook-form";
 import useCustomTitle from "../../hooks/useCustomTitle";
@@ -26,6 +28,7 @@ interface CredentialsProps {
 }
 
 const Login: React.FC = () => {
+  useCustomTitle("AppliTrak - Login");
   const navigate = useNavigate();
   const [show, setShow] = useState(false);
   const handleClick = () => setShow(!show);
@@ -36,8 +39,6 @@ const Login: React.FC = () => {
     handleSubmit,
     formState: { errors },
   } = useForm<CredentialsProps>();
-
-  useCustomTitle("AppliTrak - Login");
 
   useEffect(() => {
     // Faulty guard.
