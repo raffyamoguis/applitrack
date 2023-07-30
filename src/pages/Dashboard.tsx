@@ -8,8 +8,10 @@ import ShowOverview from "../components/overview/ShowOverview";
 // Hooks
 import { useAuth } from "../utils/AuthContext";
 import useApplicationCount from "../hooks/overview/useApplicationCount";
+import useCustomTitle from "../hooks/useCustomTitle";
 
 const Dashboard: React.FC = () => {
+  useCustomTitle("AppliTrak - Overview");
   const { user } = useAuth();
 
   const {

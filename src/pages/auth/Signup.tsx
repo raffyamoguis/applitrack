@@ -18,6 +18,7 @@ import {
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 import { useForm } from "react-hook-form";
 import { useAuth } from "../../utils/AuthContext";
+import useCustomTitle from "../../hooks/useCustomTitle";
 
 interface FormInput {
   name: string;
@@ -27,6 +28,7 @@ interface FormInput {
 }
 
 const Login: React.FC = () => {
+  useCustomTitle("AppliTrak - Signup");
   const {
     register,
     handleSubmit,

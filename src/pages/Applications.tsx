@@ -17,8 +17,11 @@ import { SearchIcon } from "@chakra-ui/icons";
 import ApplicationCards from "../components/application/ApplicationCards";
 import ApplicationSearchCards from "../components/application/ApplicationSearchCards";
 import ApplicationFormModal from "./form/ApplicationModal";
+
+// Hooks
 import useSearchApplication from "../hooks/application/useSearchApplication";
 import { useAuth } from "../utils/AuthContext";
+import useCustomTitle from "../hooks/useCustomTitle";
 
 type Options = {
   sort: string;
@@ -26,6 +29,7 @@ type Options = {
 };
 
 const Applications: React.FC = () => {
+  useCustomTitle("AppliTrak - Applications");
   const { user } = useAuth();
   const [totalApplications, setTotalApplications] = useState<number>(0);
   const [options, setOptions] = useState<Options>({ sort: "desc", filter: "" });

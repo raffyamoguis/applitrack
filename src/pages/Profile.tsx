@@ -16,10 +16,14 @@ import {
   Input,
 } from "@chakra-ui/react";
 import { EditIcon } from "@chakra-ui/icons";
+
+// Hooks
 import { useAuth } from "../utils/AuthContext";
+import useCustomTitle from "../hooks/useCustomTitle";
 
 const Profile: React.FC = () => {
   const { user } = useAuth();
+  useCustomTitle(`AppliTrak - ${user.name}`);
 
   return (
     <Container maxW="container.md">

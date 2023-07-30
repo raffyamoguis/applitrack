@@ -18,6 +18,7 @@ import {
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 import { useAuth } from "../../utils/AuthContext";
 import { useForm } from "react-hook-form";
+import useCustomTitle from "../../hooks/useCustomTitle";
 
 interface CredentialsProps {
   email: string;
@@ -36,17 +37,7 @@ const Login: React.FC = () => {
     formState: { errors },
   } = useForm<CredentialsProps>();
 
-  // const [credentials, setCredentials] = useState<CredentialsProps>({
-  //   email: "",
-  //   password: "",
-  // });
-
-  // const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   const name = e.target.name;
-  //   const value = e.target.value;
-
-  //   setCredentials({ ...credentials, [name]: value });
-  // };
+  useCustomTitle("AppliTrak - Login");
 
   useEffect(() => {
     // Faulty guard.
