@@ -19,6 +19,7 @@ import { useQueryClient } from "react-query";
 
 import useAddApplication from "../../hooks/application/useAddApplication";
 import { useAuth } from "../../utils/AuthContext";
+import useCustomTitle from "../../hooks/useCustomTitle";
 
 interface ApplicationInput {
   name: string;
@@ -28,6 +29,7 @@ interface ApplicationInput {
 }
 
 const ApplicationForm: React.FC = () => {
+  useCustomTitle("AppliTrak - Add Application");
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const toast = useToast();
