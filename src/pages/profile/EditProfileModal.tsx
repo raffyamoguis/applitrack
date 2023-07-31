@@ -8,15 +8,16 @@ import {
   ModalContent,
   Text,
   Divider,
-  Avatar,
+  Spacer,
   Center,
   // FormControl,
   // FormErrorMessage,
   Input,
-  // Box,
   // VStack,
-  // Flex,
+  Flex,
 } from "@chakra-ui/react";
+
+import ProfileAvatar from "../../components/ProfileAvatar";
 import { useAuth } from "../../utils/AuthContext";
 
 interface Props {
@@ -49,45 +50,98 @@ const EditProfileModal: React.FC<Props> = ({ isOpen, onClose }) => {
         <ModalCloseButton />
         <Divider />
         <ModalBody pb={6}>
-          <Text>Avatar</Text>
           <Center>
-            <Avatar
-              size="xl"
-              name="Segun Adebayo"
-              src="https://bit.ly/sage-adebayo"
-            />
+            {/* <Box
+              position="relative"
+              display="inline-block"
+              _hover={{
+                "& > div": {
+                  opacity: 1,
+                },
+              }}
+            >
+              <Avatar
+                size="xl"
+                name={user.name}
+                src="https://bit.ly/sage-adebayo"
+              />
+
+              <Flex
+                position="absolute"
+                bottom="0"
+                left="50%"
+                transform="translateX(-50%)"
+                bg="gray.100"
+                rounded="full"
+                boxShadow="md"
+                p="1"
+                opacity="0"
+                transition="opacity 0.2s"
+                cursor="pointer"
+              >
+                <Icon as={EditIcon} boxSize={4} color="gray.500" />
+              </Flex>
+            </Box> */}
+            <ProfileAvatar user={user} />
           </Center>
-          <Text>Name</Text>
-          <Center>
-            {/* <VStack spacing={4} width="100%" maxWidth="400px">
-              <FormControl> */}
+
+          <Flex mt="10" mb="4" fontWeight={500} alignItems="center">
+            <Text>Name</Text>
+            <Spacer />
             <Input
-              width="50%"
-              mb="4"
               type="text"
               variant="filled"
-              placeholder="Name"
-              size={{ base: "sm", md: "md" }}
+              htmlSize={20}
+              width="auto"
               defaultValue={user?.name}
             />
-            {/* <FormErrorMessage mt="-3" mb="2">
-                  {/* {errors.name && errors.name.message} 
-                </FormErrorMessage>
-              </FormControl>
-            </VStack> */}
-          </Center>
-          <Text>Email</Text>
-          <Center>
+          </Flex>
+          <Divider />
+          <Flex mt="2" mb="4" fontWeight={500} alignItems="center">
+            <Text>Email</Text>
+            <Spacer />
             <Input
-              width="50%"
-              mb="4"
-              type="text"
+              type="email"
               variant="filled"
-              placeholder="Update email"
-              size={{ base: "sm", md: "md" }}
+              htmlSize={20}
+              width="auto"
               defaultValue={user?.email}
             />
-          </Center>
+          </Flex>
+          <Divider />
+          <Flex mt="2" mb="2" fontWeight={500} alignItems="center">
+            <Text>Update password</Text>
+            <Spacer />
+            <Input
+              type="text"
+              variant="filled"
+              htmlSize={20}
+              width="auto"
+              defaultValue="New password"
+            />
+          </Flex>
+          <Flex mb="4" fontWeight={500} alignItems="center">
+            {/* <Text>Password</Text> */}
+            <Spacer />
+            <Input
+              type="text"
+              variant="filled"
+              htmlSize={20}
+              width="auto"
+              defaultValue="Confirm password"
+            />
+          </Flex>
+          <Flex mb="4" fontWeight={500} alignItems="center">
+            <Text>Old password</Text>
+            <Spacer />
+            <Input
+              type="text"
+              variant="filled"
+              htmlSize={20}
+              width="auto"
+              defaultValue="Old password"
+            />
+          </Flex>
         </ModalBody>
       </ModalContent>
     </Modal>

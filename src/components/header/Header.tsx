@@ -27,7 +27,7 @@ import { useAuth } from "../../utils/AuthContext";
 
 const Header: React.FC = () => {
   const location = useLocation();
-  const { handleUserLogout } = useAuth();
+  const { handleUserLogout, userAvatar } = useAuth();
   const { colorMode, toggleColorMode } = useColorMode();
   const [isSmallerDevice] = useMediaQuery("(max-width: 600px)");
 
@@ -68,7 +68,7 @@ const Header: React.FC = () => {
                 <Avatar
                   size={`${isSmallerDevice ? "sm" : "md"}`}
                   name="Raffy Amoguis"
-                  src="https://bit.ly/ryan-florence"
+                  src={userAvatar}
                 />
               </MenuButton>
               <MenuList>

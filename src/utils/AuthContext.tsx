@@ -3,11 +3,20 @@ import { Box, AbsoluteCenter, useToast } from "@chakra-ui/react";
 import { ID } from "appwrite";
 import { useQueryClient } from "react-query";
 import { useNavigate } from "react-router-dom";
-import { account } from "../appwriteConfig";
+import { Query } from "appwrite";
+import {
+  account,
+  databases,
+  storage,
+  DATABASE_ID,
+  COLLECTION_ID_AVATARS,
+  BUCKET_ID,
+} from "../appwriteConfig";
 import Ripple from "../components/ripple/Ripple";
 
 interface AuthContextData {
   user: any; // Replace 'any' with the actual type of your user object
+  userAvatar: string;
   isLoggingIn: boolean;
   isCreatingAcc: boolean;
   handleUserLogin: (credentials: any) => void;
@@ -17,6 +26,7 @@ interface AuthContextData {
 
 const AuthContext = createContext<AuthContextData>({
   user: null,
+  userAvatar: "",
   isLoggingIn: false,
   isCreatingAcc: false,
   handleUserLogin: (_credentials: any) => {},
@@ -34,6 +44,7 @@ export const AuthProvider: React.FC<Props> = ({ children }) => {
   const toast = useToast();
   const [loading, setLoading] = useState<boolean>(true);
   const [user, setUser] = useState<any>(null);
+  const [userAvatar, setUserAvatar] = useState<string>("");
   const [isLoggingIn, setLoggingIn] = useState<boolean>(false);
   const [isCreatingAcc, setCreatingAcc] = useState<boolean>(false);
 
@@ -42,10 +53,45 @@ export const AuthProvider: React.FC<Props> = ({ children }) => {
       const accountDetails = await account.get();
 
       setUser(accountDetails);
+
+      // Fetch user avatar
+      const avatarInfo = await getUserAvatarInfo(accountDetails.$id);
+
+      const userAvatar = await getUserAvatar(avatarInfo.avatar_id);
+
+      setUserAvatar(userAvatar.href);
     } catch (error) {
       console.error(error);
     }
     setLoading(false);
+  };
+
+  const getUserAvatar = async (avatar_id: string) => {
+    let result;
+
+    try {
+      result = await storage.getFilePreview(BUCKET_ID, avatar_id);
+    } catch (error) {
+      console.log(error);
+    }
+
+    return result;
+  };
+
+  const getUserAvatarInfo = async (id: string) => {
+    let result;
+
+    try {
+      result = await databases.listDocuments(
+        DATABASE_ID,
+        COLLECTION_ID_AVATARS,
+        [Query.equal("user_id", id)]
+      );
+    } catch (error) {
+      console.log(error);
+    }
+
+    return result.documents[0];
   };
 
   const handleUserLogin = async (credentials: any) => {
@@ -111,6 +157,7 @@ export const AuthProvider: React.FC<Props> = ({ children }) => {
 
   const contextData = {
     user,
+    userAvatar,
     isLoggingIn,
     isCreatingAcc,
     handleUserLogin,

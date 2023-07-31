@@ -14,16 +14,20 @@ import {
   Spacer,
   Icon,
   Input,
+  useDisclosure,
 } from "@chakra-ui/react";
 import { EditIcon } from "@chakra-ui/icons";
 
 // Hooks
 import { useAuth } from "../utils/AuthContext";
 import useCustomTitle from "../hooks/useCustomTitle";
+import EditProfileModal from "./profile/EditProfileModal";
 
 const Profile: React.FC = () => {
-  const { user } = useAuth();
+  const { user, userAvatar } = useAuth();
   useCustomTitle(`AppliTrak - ${user.name}`);
+
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
     <Container maxW="container.md">
@@ -34,7 +38,8 @@ const Profile: React.FC = () => {
       </Flex>
 
       <VStack align="center" mt="5" spacing="1" mb="2">
-        <Box
+        <Avatar size="xl" name="John Doe" src={userAvatar} />
+        {/* <Box
           position="relative"
           display="inline-block"
           _hover={{
@@ -60,70 +65,23 @@ const Profile: React.FC = () => {
           >
             <Icon as={EditIcon} boxSize={4} color="gray.500" />
           </Flex>
-        </Box>
+        </Box> */}
         <Text as="b" fontSize="lg">
           {user.name}
         </Text>
-        {/* <Button
+        <Button
           leftIcon={<EditIcon />}
           colorScheme="nigga"
           size="sm"
           variant="ghost"
+          onClick={onOpen}
         >
           Edit Profile
-        </Button> */}
+        </Button>
+        <EditProfileModal isOpen={isOpen} onClose={onClose} />
       </VStack>
       <Divider />
       <Box boxSize={{ base: "xs", sm: "sm", md: "md" }} m="auto" mt="4">
-        <Text as="b" fontSize="lg">
-          Info
-        </Text>
-        <Flex mt="2" mb="4" fontWeight={500} alignItems="center">
-          <Text>Name</Text>
-          <Spacer />
-          <Input
-            type="text"
-            variant="filled"
-            htmlSize={20}
-            width="auto"
-            defaultValue={user?.name}
-          />
-        </Flex>
-        <Divider />
-        <Flex mt="2" mb="4" fontWeight={500} alignItems="center">
-          <Text>Email</Text>
-          <Spacer />
-          <Input
-            type="email"
-            variant="filled"
-            htmlSize={20}
-            width="auto"
-            defaultValue={user?.email}
-          />
-        </Flex>
-        <Divider />
-        <Flex mt="2" mb="2" fontWeight={500} alignItems="center">
-          <Text>Update password</Text>
-          <Spacer />
-          <Input
-            type="text"
-            variant="filled"
-            htmlSize={20}
-            width="auto"
-            defaultValue="New password"
-          />
-        </Flex>
-        <Flex mb="4" fontWeight={500} alignItems="center">
-          {/* <Text>Password</Text> */}
-          <Spacer />
-          <Input
-            type="text"
-            variant="filled"
-            htmlSize={20}
-            width="auto"
-            defaultValue="Confirm password"
-          />
-        </Flex>
         {/* <Flex mb="4" fontWeight={500} alignItems="center">
           <Text>Old password</Text>
           <Spacer />
