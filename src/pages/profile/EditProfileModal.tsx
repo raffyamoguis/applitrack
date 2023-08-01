@@ -9,15 +9,10 @@ import {
   Text,
   Divider,
   Spacer,
-  Center,
-  // FormControl,
-  // FormErrorMessage,
   Input,
-  // VStack,
   Flex,
 } from "@chakra-ui/react";
 
-import ProfileAvatar from "../../components/ProfileAvatar";
 import { useAuth } from "../../utils/AuthContext";
 
 interface Props {
@@ -50,41 +45,6 @@ const EditProfileModal: React.FC<Props> = ({ isOpen, onClose }) => {
         <ModalCloseButton />
         <Divider />
         <ModalBody pb={6}>
-          <Center>
-            {/* <Box
-              position="relative"
-              display="inline-block"
-              _hover={{
-                "& > div": {
-                  opacity: 1,
-                },
-              }}
-            >
-              <Avatar
-                size="xl"
-                name={user.name}
-                src="https://bit.ly/sage-adebayo"
-              />
-
-              <Flex
-                position="absolute"
-                bottom="0"
-                left="50%"
-                transform="translateX(-50%)"
-                bg="gray.100"
-                rounded="full"
-                boxShadow="md"
-                p="1"
-                opacity="0"
-                transition="opacity 0.2s"
-                cursor="pointer"
-              >
-                <Icon as={EditIcon} boxSize={4} color="gray.500" />
-              </Flex>
-            </Box> */}
-            <ProfileAvatar user={user} />
-          </Center>
-
           <Flex mt="10" mb="4" fontWeight={500} alignItems="center">
             <Text>Name</Text>
             <Spacer />
