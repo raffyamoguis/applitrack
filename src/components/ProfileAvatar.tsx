@@ -1,6 +1,6 @@
-import React, { useRef, ChangeEvent } from "react";
+import React, { useRef, useState, ChangeEvent } from "react";
 import { ID } from "appwrite";
-import { Box, Avatar, Flex, Icon, useToast } from "@chakra-ui/react";
+import { Box, Avatar, Flex, Icon, Spinner, useToast } from "@chakra-ui/react";
 import { EditIcon } from "@chakra-ui/icons";
 import {
   databases,
@@ -16,11 +16,13 @@ interface UserProfileProps {
     $id: string;
     name: string;
   };
+  avatar: string;
 }
 
-const ProfileAvatar: React.FC<UserProfileProps> = ({ user }) => {
+const ProfileAvatar: React.FC<UserProfileProps> = ({ user, avatar }) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const toast = useToast();
+  const [isUploading, setIsUploading] = useState<boolean>(false);
 
   const { data: avatarID } = useGetAvatarID(user.$id);
 
@@ -31,6 +33,9 @@ const ProfileAvatar: React.FC<UserProfileProps> = ({ user }) => {
     if (newFile && newFile.type.startsWith("image/")) {
       // Do something with the image file, e.g., upload it to the server
       // Replace the following console.log with your actual upload logic
+
+      // Set the uploading state
+      setIsUploading(true);
 
       await storage
         .createFile(BUCKET_ID, ID.unique(), newFile)
@@ -48,21 +53,26 @@ const ProfileAvatar: React.FC<UserProfileProps> = ({ user }) => {
             .updateDocument(DATABASE_ID, COLLECTION_ID_AVATARS, avatarID.$id, {
               avatar_id: result.$id,
             })
-            .then(() => console.log("Successfully updated avatar"))
+            .then(() => {
+              console.log("Successfully updated avatar");
+              // Show a toast message indicating the successful upload
+              toast({
+                title: "Avatar updated.",
+                description: `To display the new avatar a page reload might be needed.`,
+                variant: "left-accent",
+                status: "success",
+                duration: 5000,
+                isClosable: true,
+              });
+
+              // Set is uploading state
+              setIsUploading(false);
+            })
             .catch((error: any) => console.log(error));
         })
         .catch((error: any) => {
           console.log(error);
         });
-
-      // Show a toast message indicating the successful upload
-      //   toast({
-      //     title: "Image Uploaded",
-      //     description: `You have successfully uploaded ${file.name}`,
-      //     status: "success",
-      //     duration: 3000,
-      //     isClosable: true,
-      //   });
     } else {
       // Show a toast message indicating that only images are allowed
       toast({
@@ -81,7 +91,7 @@ const ProfileAvatar: React.FC<UserProfileProps> = ({ user }) => {
       display="inline-block"
       _hover={{ "& > div": { opacity: 1 } }}
     >
-      <Avatar size="xl" name={user.name} src="" />
+      <Avatar size="xl" name={user.name} src={avatar} />
 
       <Flex
         position="absolute"
@@ -92,18 +102,24 @@ const ProfileAvatar: React.FC<UserProfileProps> = ({ user }) => {
         rounded="full"
         boxShadow="md"
         p="1"
-        opacity="0"
+        opacity={`${isUploading ? "1" : "0"}`}
         transition="opacity 0.2s"
         cursor="pointer"
         onClick={() => inputRef.current?.click()} // Trigger file input click on icon click
       >
-        <Icon as={EditIcon} boxSize={4} color="gray.500" />
-        <input
-          type="file"
-          ref={inputRef}
-          style={{ display: "none" }}
-          onChange={handleFileUpload}
-        />
+        {isUploading ? (
+          <Spinner size="xs" color="gray.500" />
+        ) : (
+          <>
+            <Icon as={EditIcon} boxSize={4} color="gray.500" />
+            <input
+              type="file"
+              ref={inputRef}
+              style={{ display: "none" }}
+              onChange={handleFileUpload}
+            />
+          </>
+        )}
       </Flex>
     </Box>
   );
