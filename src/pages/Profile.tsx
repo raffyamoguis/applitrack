@@ -5,29 +5,38 @@ import {
   Flex,
   Divider,
   Button,
-  Avatar,
   VStack,
   // FormControl,
   // FormLabel,
   // Switch,
   Box,
   Spacer,
-  Icon,
-  Input,
-  useDisclosure,
+  useToast,
 } from "@chakra-ui/react";
 import { EditIcon } from "@chakra-ui/icons";
 
 // Hooks
 import { useAuth } from "../utils/AuthContext";
 import useCustomTitle from "../hooks/useCustomTitle";
-import EditProfileModal from "./profile/EditProfileModal";
+// import EditProfileModal from "./profile/EditProfileModal";
+import ProfileAvatar from "../components/ProfileAvatar";
 
 const Profile: React.FC = () => {
   const { user, userAvatar } = useAuth();
   useCustomTitle(`AppliTrak - ${user.name}`);
+  const toast = useToast();
 
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  // const { isOpen, onOpen, onClose } = useDisclosure();
+
+  const handleShow = () => {
+    toast({
+      title: "Function is in development.",
+      variant: "left-accent",
+      status: "info",
+      duration: 3000,
+      isClosable: true,
+    });
+  };
 
   return (
     <Container maxW="container.md">
@@ -38,34 +47,8 @@ const Profile: React.FC = () => {
       </Flex>
 
       <VStack align="center" mt="5" spacing="1" mb="2">
-        <Avatar size="xl" name="John Doe" src={userAvatar} />
-        {/* <Box
-          position="relative"
-          display="inline-block"
-          _hover={{
-            "& > div": {
-              opacity: 1,
-            },
-          }}
-        >
-          <Avatar size="xl" name="John Doe" src="https://bit.ly/sage-adebayo" />
+        <ProfileAvatar user={user} avatar={userAvatar} />
 
-          <Flex
-            position="absolute"
-            bottom="0"
-            left="50%"
-            transform="translateX(-50%)"
-            bg="gray.100"
-            rounded="full"
-            boxShadow="md"
-            p="1"
-            opacity="0"
-            transition="opacity 0.2s"
-            cursor="pointer"
-          >
-            <Icon as={EditIcon} boxSize={4} color="gray.500" />
-          </Flex>
-        </Box> */}
         <Text as="b" fontSize="lg">
           {user.name}
         </Text>
@@ -74,11 +57,11 @@ const Profile: React.FC = () => {
           colorScheme="nigga"
           size="sm"
           variant="ghost"
-          onClick={onOpen}
+          onClick={handleShow}
         >
           Edit Profile
         </Button>
-        <EditProfileModal isOpen={isOpen} onClose={onClose} />
+        {/* <EditProfileModal isOpen={isOpen} onClose={onClose} /> */}
       </VStack>
       <Divider />
       <Box boxSize={{ base: "xs", sm: "sm", md: "md" }} m="auto" mt="4">
