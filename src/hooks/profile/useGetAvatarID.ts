@@ -8,7 +8,7 @@ const fetchAvatarID = async (userid:string) => {
         DATABASE_ID,
         COLLECTION_ID_AVATARS,
         [Query.equal("user_id", userid)]
-      ); return result.documents[0];
+      ); return result?.documents[0];
     } catch (error) {
         console.log(error);
     }

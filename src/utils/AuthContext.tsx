@@ -132,9 +132,18 @@ export const AuthProvider: React.FC<Props> = ({ children }) => {
 
       const accountDetails = await account.get();
 
-      setUser(accountDetails);
-      setCreatingAcc(false);
-      navigate("/");
+      // Create user avatar links
+      await databases
+        .createDocument(DATABASE_ID, COLLECTION_ID_AVATARS, ID.unique(), {
+          user_id: accountDetails.$id,
+        })
+        .then(() => {
+          setUser(accountDetails);
+          setCreatingAcc(false);
+          navigate("/");
+        })
+        .catch((error: any) => console.log(error));
+        
     } catch (error) {
       console.log(error);
       setCreatingAcc(false);

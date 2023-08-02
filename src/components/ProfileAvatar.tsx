@@ -42,6 +42,8 @@ const ProfileAvatar: React.FC<UserProfileProps> = ({ user, avatar }) => {
         .then(async (result: any) => {
           console.log("Successfully uploaded new avatar.");
 
+          console.log("Avatar id: ", avatarID.avatar_id);
+
           // Delete old avatar
           await storage
             .deleteFile(BUCKET_ID, avatarID.avatar_id)
