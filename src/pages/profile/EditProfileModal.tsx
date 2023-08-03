@@ -6,6 +6,8 @@ import {
   ModalCloseButton,
   ModalBody,
   ModalContent,
+  ModalFooter,
+  Button,
   Text,
   Divider,
   Spacer,
@@ -103,6 +105,14 @@ const EditProfileModal: React.FC<Props> = ({ isOpen, onClose }) => {
             />
           </Flex>
         </ModalBody>
+        <ModalFooter>
+          <Button colorScheme="nigga" mr={3} onClick={onClose}>
+            Close
+          </Button>
+          <Button colorScheme="nigga" variant="ghost">
+            Update
+          </Button>
+        </ModalFooter>
       </ModalContent>
     </Modal>
   );
