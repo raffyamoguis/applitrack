@@ -73,7 +73,6 @@ const Login: React.FC = () => {
                   focusBorderColor="#2f2f31"
                   {...register("name", {
                     required: "This is required",
-                    maxLength: 10,
                   })}
                 />
                 <FormErrorMessage mt="-4" mb="2">
