@@ -1,11 +1,11 @@
 export const filters = [
   "No filter",
-  "Assesment interview",
-  "Initial interview",
-  "Technical interview",
-  "Final interview",
-  "Not selected",
-  "No update",
+  "Assesment",
+  "Initial Interview",
+  "Technical Interview",
+  "Final Interview",
+  "Not Selected",
+  "No Update",
 ];
 
 export const sortTypes = ["Ascending", "Descending"];

@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, Link as ReactLink } from "react-router-dom";
+import { account } from "../../appwriteConfig";
 import {
   Box,
   AbsoluteCenter,
+  Icon,
   Card,
   CardBody,
   Text,
@@ -16,6 +18,11 @@ import {
   FormErrorMessage,
 } from "@chakra-ui/react";
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
+import {
+  IconBrandGoogle,
+  IconBrandFacebook,
+  IconBrandGithub,
+} from "@tabler/icons-react";
 
 // Hooks
 import { useAuth } from "../../utils/AuthContext";
@@ -51,6 +58,14 @@ const Login: React.FC = () => {
     handleUserLogin(data);
   };
 
+  const handleGoogleLogin = async () => {
+    await account.createOAuth2Session("google", "http://localhost:5173/");
+  };
+
+  const handleGithubLogin = async () => {
+    await account.createOAuth2Session("github", "http://localhost:5173/");
+  };
+
   return (
     <Box position="relative" h="100vh">
       <AbsoluteCenter p="4" color="gray" axis="both">
@@ -58,16 +73,16 @@ const Login: React.FC = () => {
           Login to use this awesome application. 🤨
         </Text>
         <Card
-          boxSize={{ base: "xs", sm: "md", md: "lg" }}
-          h={{ base: "sm", sm: "md" }}
+          boxSize={{ base: "xs", sm: "sm", md: "md" }}
+          h={{ base: "sm", sm: "sm" }}
           borderRadius="xl"
           variant="outline"
           shadow="sm"
           p={{ base: "2", sm: "4" }}
         >
           <CardBody>
-            <Text as="b" fontSize="xl">
-              Login
+            <Text as="b" fontSize="xl" textAlign="center">
+              JA Tracker
             </Text>
             <form onSubmit={handleSubmit(onSubmit)}>
               <FormControl isInvalid={!!errors.email?.message}>
@@ -155,6 +170,36 @@ const Login: React.FC = () => {
                 Dont have an account create one. 😌
               </Text>
             </Link>
+            {/* <Button
+              colorScheme="red"
+              w="100%"
+              mt={{ base: "20", sm: "20" }}
+              size={{ base: "md", md: "lg" }}
+              leftIcon={<Icon as={IconBrandGoogle} />}
+              onClick={handleGoogleLogin}
+            >
+              Google
+            </Button>
+            <Button
+              colorScheme="facebook"
+              w="100%"
+              mt={{ base: "2", sm: "4", md: "6" }}
+              size={{ base: "md", md: "lg" }}
+              leftIcon={<Icon as={IconBrandFacebook} />}
+              onClick={handleGoogleLogin}
+            >
+              Facebook
+            </Button>
+            <Button
+              colorScheme="nigga"
+              w="100%"
+              mt={{ base: "2", sm: "4", md: "6" }}
+              size={{ base: "md", md: "lg" }}
+              leftIcon={<Icon as={IconBrandGithub} />}
+              onClick={handleGithubLogin}
+            >
+              Github
+            </Button> */}
           </CardBody>
         </Card>
       </AbsoluteCenter>

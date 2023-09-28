@@ -9,10 +9,12 @@ import {
   Input,
   InputRightElement,
   Flex,
+  useToast,
 } from "@chakra-ui/react";
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 import { useForm } from "react-hook-form";
 import { useAuth } from "../../utils/AuthContext";
+import { account } from "../../appwriteConfig";
 
 interface ProfileInput {
   name: string;
@@ -25,6 +27,7 @@ const OverviewProfile: React.FC = () => {
   const { user } = useAuth();
   const [show, setShow] = useState(false);
   const handleClick = () => setShow(!show);
+  const toast = useToast();
 
   const {
     register,
@@ -32,8 +35,45 @@ const OverviewProfile: React.FC = () => {
     formState: { errors, isDirty },
   } = useForm<ProfileInput>();
 
-  const onSubmit = (data: ProfileInput) => {
-    console.log(data);
+  const onSubmit = async (data: ProfileInput) => {
+    // Check th old password
+    await account
+      .createEmailSession(user?.email, data.oldpassword)
+      .then(async () => {
+        // Update everything else
+        // Update name
+        await account
+          .updateName(data.name)
+          .then(() => {
+            console.log("Updated name success");
+          })
+          .catch((error: string) => console.log(error));
+      })
+      .catch((error: any) => {
+        toast({
+          title: "Old password is incorrect",
+          status: "error",
+          variant: "left-accent",
+          duration: 5000,
+          isClosable: true,
+        });
+        console.log(error);
+      });
+  };
+
+  const checkOldPassword = async (oldpass: string) => {
+    try {
+      const result = await account.createEmailSession(user?.email, oldpass);
+      console.log(result);
+
+      if (result) {
+        console.log("Ok");
+      } else {
+        console.log("Not ok");
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (

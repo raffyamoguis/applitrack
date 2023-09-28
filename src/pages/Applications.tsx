@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import {
   Text,
-  Container,
-  Flex,
   Select,
   Button,
   Spacer,
@@ -13,7 +11,14 @@ import {
 } from "@chakra-ui/react";
 import { SearchIcon } from "@chakra-ui/icons";
 
-// Componetns
+// Components
+import { Page, PageHeader, PageTitle } from "../components/layout/page";
+import {
+  ApplicationData,
+  ApplicationFilter,
+  ApplicationSearch,
+  ApplicationSort,
+} from "../components/application";
 import ApplicationCards from "../components/application/ApplicationCards";
 import ApplicationSearchCards from "../components/application/ApplicationSearchCards";
 import ApplicationFormModal from "./form/ApplicationModal";
@@ -29,18 +34,18 @@ type Options = {
 };
 
 const Applications: React.FC = () => {
-  useCustomTitle("AppliTrak - Applications");
+  useCustomTitle("JA Tracker | Applications");
   const { user } = useAuth();
   const [totalApplications, setTotalApplications] = useState<number>(0);
   const [options, setOptions] = useState<Options>({ sort: "desc", filter: "" });
   const [search, setSearch] = useState<string>("");
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const {
-    data: applications,
-    isLoading,
-    isSuccess,
-  } = useSearchApplication(search, user?.$id);
+  // const {
+  //   data: applications,
+  //   isLoading,
+  //   isSuccess,
+  // } = useSearchApplication(search, user?.$id);
 
   const handleTotalApplications = (total: number) => {
     // Update parent component state or perform actions with the received data
@@ -56,46 +61,17 @@ const Applications: React.FC = () => {
   };
 
   return (
-    <Container maxW="container.xl">
-      <Flex alignItems="center" mt="5" gap="2">
-        <Text fontSize={{ base: "xl", sm: "2xl" }} as="b">
-          Applications
-        </Text>
-      </Flex>
+    <Page>
+      <PageTitle title="Applications" />
 
-      <Flex alignItems="center" mt="10" gap="2">
+      <PageHeader>
         <Text fontSize="sm" as="b">
           {totalApplications} total applications.
         </Text>
 
         <Spacer />
-
-        <Select
-          placeholder="Sortby"
-          size={{ base: "xs", sm: "sm", md: "md" }}
-          w={100}
-          value={options.sort}
-          onChange={handleSortOnChange}
-          disabled={search !== ""}
-        >
-          <option value="asc">Ascending</option>
-          <option value="desc">Descending</option>
-        </Select>
-        <Select
-          placeholder="Filter"
-          size={{ base: "xs", sm: "sm", md: "md" }}
-          w={100}
-          value={options.filter}
-          onChange={handleFilterOnChange}
-          disabled={search !== ""}
-        >
-          <option value="Assesment">Assesment</option>
-          <option value="Initial Interview">Initial</option>
-          <option value="Technical Interview">Technical</option>
-          <option value="Final Interview">Final</option>
-          <option value="Not Selected">Not Selected</option>
-          <option value="No Update">No Update</option>
-        </Select>
+        <ApplicationSort />
+        <ApplicationFilter />
         <Button
           colorScheme="nigga"
           size={{ base: "xs", sm: "sm", md: "md" }}
@@ -105,20 +81,11 @@ const Applications: React.FC = () => {
         </Button>
 
         <ApplicationFormModal isOpen={isOpen} onClose={onClose} />
-      </Flex>
-      <InputGroup mt="4">
-        <InputLeftElement pointerEvents="none">
-          <SearchIcon color="gray.300" />
-        </InputLeftElement>
-        <Input
-          type="text"
-          placeholder="Search"
-          focusBorderColor="#2f2f31"
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-        />
-      </InputGroup>
-      {search ? (
+      </PageHeader>
+
+      <ApplicationSearch />
+
+      {/* {search ? (
         <ApplicationSearchCards
           isLoading={isLoading}
           isSuccess={isSuccess}
@@ -131,8 +98,9 @@ const Applications: React.FC = () => {
           sendTotalApplications={handleTotalApplications}
           options={options}
         />
-      )}
-    </Container>
+      )} */}
+      <ApplicationData />
+    </Page>
   );
 };
 

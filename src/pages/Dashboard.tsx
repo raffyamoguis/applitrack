@@ -11,7 +11,7 @@ import useApplicationCount from "../hooks/overview/useApplicationCount";
 import useCustomTitle from "../hooks/useCustomTitle";
 
 const Dashboard: React.FC = () => {
-  useCustomTitle("AppliTrak - Overview");
+  useCustomTitle("JA Tracker | Overview");
   const { user } = useAuth();
 
   const {

@@ -20,7 +20,7 @@ import OverviewProfile from "./profile/OverviewProfile";
 
 const Profile: React.FC = () => {
   const { user, userAvatar } = useAuth();
-  useCustomTitle(`AppliTrak - ${user.name}`);
+  useCustomTitle(`JA Tracker | ${user.name}`);
 
   return (
     <Container maxW="container.md">
